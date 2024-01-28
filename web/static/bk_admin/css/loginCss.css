@@ -1,0 +1,60 @@
+html,body
+{
+    height:100%;
+    overflow:hidden;
+    font-size: 14px;
+    /*font-family: "Microsoft YaHei";*/
+}
+
+/* login */
+.login-body {
+    background:url(../images/bgImg.jpg) no-repeat center;
+    background-size: cover;
+}
+
+.login-box {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 320px;
+    height: 241px;
+    max-height: 300px;
+}
+
+.login-body .login-box h3{
+    color: #fff;
+    font-size: 22px;
+    text-align: center;
+}
+
+.login-body .login-box h3 span.version{
+    font-size: 13px;
+}
+
+.login-box .layui-input[type='number'] {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+}
+
+.login-box img {
+    display: inline-block;
+    width: 75px;
+    height: 20px;
+    border: none;
+    vertical-align: top;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 8px;
+}
+
+.login-box button[type='reset']{
+    width: 95px;
+}
+
+.logSubmit{
+    width: 190px;
+}

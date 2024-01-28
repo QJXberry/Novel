@@ -1,0 +1,121 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../bk_admin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="../bk_admin/css/myCss.css">
+<script src="../bk_admin/layui/layui.js" charset="utf-8"></script>
+<script src="../bk_admin/js/jquery-1.12.4.js" type="text/javascript"></script>
+<script type="text/javascript">
+    bk_abstract = '';
+    layui.use(['layedit'], function () {
+        var form = layui.form(), layedit = layui.layedit;
+        form.render();
+        bk_abstract = layedit.build('bk_abstract', {
+            height: 450, //设置编辑器高度
+            tool: []
+        });
+    });
+
+    function get_content() {
+        var content;
+        layui.use(['layedit'], function () {
+            var layedit = layui.layedit;
+            content = layedit.getContent(bk_abstract);
+        });
+        return content
+    }
+</script>
+</head>
+<body>
+    <form class="layui-form">
+    <div class="layui-form-item">
+            <label class="layui-form-label">
+                书名</label>
+            <div class="layui-input-block">
+                <input type="text" id="bk_name" value="" lay-verify='required'
+                    placeholder="请输入书名" class="layui-input">
+            </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            类别</label>
+        <div class="layui-input-block">
+            <select id="tp_id" lay-verify='required'>
+                <option value="">请选择类别</option>
+                <option value="20">玄幻魔法</option>
+                <option value="21">仙侠修真</option>
+                <option value="22">都市言情</option>
+                <option value="23">历史军事</option>
+                <option value="24">网游竞技</option>
+                <option value="25">科幻灵异</option>
+                <option value="26">恐怖惊悚</option>
+                <option value="27">其他类型</option>
+                <option value="28">武侠修真</option>
+                <option value="29">穿越历史</option>
+                <option value="30">青春校园</option>
+                <option value="31">网游动漫</option>
+                <option value="32">科幻空间</option>
+                <option value="33">恐怖灵异</option>
+                <option value="34">耽美同人</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            简介</label>
+        <div class="layui-input-block">
+            <textarea  id="bk_abstract" style="width: 850px; height: 420px;"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" type="button"  onclick="add_book()">
+                创建此书</button>
+        </div>
+    </div>
+    </form>
+</body>
+<script src="../bk_admin/js/common.js" charset="utf-8"></script>
+<script>
+    function verify_blank(bk_name, tp_id, bk_abstract) {
+        if(bk_name.length == 0 || tp_id.length == 0 || bk_abstract.length == 0){
+            tip("请填写完整", 2)
+        }
+        return true
+    }
+
+    function add_book() {
+        var bk_name = $.trim($('#bk_name').val().toString());
+        var tp_id =$("#tp_id").val();
+        var bk_abstract = get_content();
+        bk_abstract = $.trim(bk_abstract);
+        var result = verify_blank(bk_name, tp_id, bk_abstract);
+        if(result == false){
+            return false
+        }
+        $.ajax({
+			url: "/add_bk",
+			type: "post",
+			data: {
+			    "bk_name": bk_name,
+                "tp_id": tp_id,
+                "bk_abstract": bk_abstract
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    tip("提交成功", 1)
+                }else{
+                    tip("提交失败", 2)
+                }
+			}
+		});
+    }
+
+
+
+</script>
+</html>

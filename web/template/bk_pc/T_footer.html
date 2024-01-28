@@ -1,0 +1,16 @@
+
+<div class="footer" id="footer">
+    <div class="wrap links">
+        <strong style="color: black">友情链接：</strong>
+        {% for link in link_list %}
+        <a href="{{link.get('link_address')}}" target="_blank">{{link.get('link_name')}}</a><span>|</span>
+        {% end %}
+        <a href="http://m.xhjbook.com">小黄鸡手机版</a>
+    </div>
+    <p style="margin-top: 8px">&copy;Copyright  http://www.xhjbook.com 小黄鸡 2017, All rights reserved </p>
+    <p>小黄鸡小说均由网友转载于网络，若转载中的书本侵犯了您的权益，请与本站管理员联系。</p>
+    <p>蜀ICP备12018281号-2</p>
+</div>
+<script>
+    fixedFooter()
+</script>

@@ -1,0 +1,162 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>小鸡推荐</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="js/dataTables.js" type="text/javascript"></script>
+</head>
+<body>
+    <input name="depth" type="hidden" value="" />
+    <input name="parentType" type="hidden" value="" />
+    <input name="leix" value="" type="hidden" />
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">
+                公告内容</label>
+            <div class="layui-input-inline">
+                <input type="text"  lay-verify="required" class="layui-input" value="" id="a_announce">
+            </div>
+
+            <label class="layui-form-label">
+                公告顺序</label>
+            <div class="layui-input-inline">
+                <input type="text"  lay-verify="required" class="layui-input" value="" id="sort" >
+            </div>
+
+            <label class="layui-form-label">
+                红色公告</label>
+            <div class="layui-input-inline">
+                <input type="checkbox" class="layui-input" title="红色" id="red">
+            </div>
+            <div class="layui-inline">
+            <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="add_announce()">
+            添加</button>
+             </div>
+        </div>
+
+    </div>
+    <table class="layui-table" id="datatable">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    公告内容
+                </th>
+                <th>
+                    公告顺序
+                </th>
+                <th>
+                    红色公告
+                </th>
+                <th>
+                    操作
+                </th>
+            </tr>
+        </thead>
+    </table>
+</body>
+<script>
+    $(document).ready(function(){
+        get_ad_list()
+    });
+
+    function get_ad_list() {
+        $.ajax({
+			url: "/sengo/xhj/get_announce",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    load_data(data['data'])
+                }
+			}
+		});
+    }
+
+    function load_data(data) {
+        destroy_datatable();
+        $('#datatable').DataTable({
+			"data": data,
+			"paging": false,
+			"bRetrieve": true,
+			"autoWidth": true,
+			"info": false,
+			"searching": false,
+			"columns": [
+                { "data": "a_id" },
+                { "data": "a_announce" },
+                { "data": "sort" },
+                {"data": "red"}
+			],
+            "columnDefs": [{
+				"targets": 4,
+				"data": "a_id",
+				"render": function(data, t, full) {
+                        return '<a class="layui-btn layui-btn-small layui-btn-danger"  onclick="del_announce('+data+')"><i class="layui-icon">&#xe640;</i> 删除广告</a>'
+				}
+			}]
+		});
+    }
+
+    function del_announce(a_id) {
+        $.ajax({
+			url: "/sengo/xhj/del_announce",
+			type: "post",
+			data: {
+			    "a_id": a_id
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    alert("删除成功")
+                }else {
+                    alert("删除失败")
+                }
+			}
+		});
+    }
+
+    var destroy_datatable = function() {
+		var table_old = $('#datatable').DataTable();
+		if(table_old != null) {
+			table_old.destroy();
+		}
+	};
+
+    function add_announce() {
+
+        var a_announce = $('#a_announce').val();
+        var sort = $('#sort').val();
+        var red = $('#red').prop('checked');
+        if(red){
+            red = 1;
+        }else {
+            red = 0
+        }
+
+        $.ajax({
+			url: "/sengo/xhj/add_announce",
+			type: "post",
+			data: {
+			    "a_announce": a_announce,
+                "sort": sort,
+                "red": red
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    alert("添加成功")
+                }else {
+                    alert("添加失败")
+                }
+			}
+		});
+    }
+</script>
+
+</html>

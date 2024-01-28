@@ -1,0 +1,77 @@
+﻿<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="js/jquery.dataTables.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var table = $('#example').DataTable({
+            "dom": '<"top"f>rt<"bottom"ip><"clear">'
+               , "displayLength": 16
+               , "order": [[paixu, "desc"]]//列的默认排序 0开始 asc(升序)或desc(降序)
+               , stateSave: true//可以保存最后一次分页信息
+                            , "language": {//语言国际化
+                                "lengthMenu": "每页 _MENU_ 条记录"
+                                        , "zeroRecords": "没有找到记录"
+                                        , "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )"
+                                        , "infoEmpty": "无记录"
+                                        , "infoFiltered": "(从 _MAX_ 条记录过滤)"
+                                        , "search": "搜索:"
+                                        , "paginate": {
+                                            "next": "下一页",
+                                            "previous": "上一页"
+                                        }
+                            }
+        });
+
+        //多选
+        $('#example tbody').on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+
+        //全选
+        $('#myCheck').on('click', function () {
+            $("#example tr").toggleClass('selected');
+        });
+
+        //分页、搜索、排序清空选择
+        $('#example').on('order.dt',
+            function () {
+                $("#example tr").removeClass('selected');
+            }).on('search.dt',
+            function () {
+                $("#example tr").removeClass('selected');
+            }).on('page.dt',
+            function () {
+                $("#example tr").removeClass('selected');
+            }).dataTable();
+
+        //删除选中项
+        $('#deleteRow').on('click', function () {
+            if ($('#example tbody tr.selected').length == 0) {
+                parent.layer.msg("请选择要删除的行！");
+            } else {
+                var delIds = "";
+                $('#example tbody tr.selected').each(function () {
+                    delIds += $(this).attr("id") + ",";
+                });
+                if (delIds != "") {
+                    delIds = delIds.substring(0, delIds.length - 1);
+                }
+                if (delIds == "undefined") {
+                    parent.layer.msg("请选择要删除的行！");
+                    return;
+                }
+                var index = parent.layer.confirm('你确定要删除吗？', {
+                    btn: ['删除', '我再想想'] //按钮
+                }, function () {
+                    parent.layer.close(index);
+                    location.href = dizhi + delIds + '&action=del';
+                    table.rows('.selected').remove().draw(false);
+                }, function () {
+                    parent.layer.close(index);
+                });
+
+            }
+        });
+
+    });
+</script>

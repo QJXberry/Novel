@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>书架-小黄鸡小说手机站</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <link rel="stylesheet" href="../../static/bk_mobile/css/style.css" />
+    <link rel="stylesheet" href="../../static/base/css/base.css"/>
+    <link rel="stylesheet" href="../../static/bk_pc/css/alertPopShow.css"/>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/alertPopShow.js" charset="gbk"></script>
+    <script src="../../static/bk_mobile/js/baidu.js" charset="gbk"></script>
+
+</head>
+<body>
+    <header class="top c_big" id="top">
+        <div class="span2">
+            <div class="index-login" style="text-align: left">
+                <a class="header-link "  href="{{referer}}" >返回</a>
+            </div>
+        </div>
+        <div class="span8 chapter-title">我的书架</div>
+        <div class="span2">
+            <div class="index-login">
+                <a class="header-link c_float_right" href="index.html" >首页</a>
+            </div>
+        </div>
+    </header>
+    <div class="bookcase-panel">
+        {% include 'sort.html' %}
+        {% include 'find.html' %}
+        <div class="collect-books">
+            <div class="book-box">
+                {% for bk in bk_list %}
+                <div class="book">
+                    <p>书名:&nbsp;<a class="novel-name"  href="/{{bk.get('bk_id')}}">{{bk.get("bk_name")}}</a></p> <button class="delete" onclick="Sure({{bk.get('bk_id')}});">[移除]</button>
+                    <p>最新:&nbsp;<a href="/{{bk.get('bk_id')}}/{{bk.get('bk_last_chap_id')}}">{{bk.get("bk_last_chap_name")}}</a></p>
+                    <p>书签:&nbsp;<a href="/{{bk.get('bk_id')}}/{{bk.get('cp_id')}}">{{bk.get("cp_name")}}</a></p>
+                </div>
+                {% end %}
+            </div>
+
+            <div class="collect">
+                <p>此书架可以收藏<span class="allow-book">{{bk_limit}}</span>本，已收藏<span class="all-books">{{bk_num}}</span>本，书签自动跟踪</p>
+            </div>
+            <div class="log-off">
+                <input  type="button" value="注销登入" onclick="logout()" />
+            </div>
+        </div>
+    </div>
+
+    <!-- 以下footer替换 -->
+    {% include 'footer.html' %}
+    <!-- footer结束 -->
+    <div class="contact-tip" id="contact-tip">
+        <p></p>
+    </div>
+    <script src="../../static/bk_mobile/js/bc_web.js" charset="gbk"></script>
+</body>
+<script type="text/javascript">
+
+    <!-- 确认删除后 进行的前端操作 -->
+    function Sure(bk_id) {
+        ajax({
+            type:"POST",
+            url:"/bookcase",
+            dataType:"json",
+            data:{
+                "bk_id":bk_id
+            },
+            success:function(msg){
+                if(msg["ret"] != 0 ){
+                        tip(msg["msg"]);
+                    }else{
+                        tip(msg["msg"]);
+                        setTimeout("window.location.href='/bookcase'",1000);
+                    }
+            },
+            error: function(){
+                tip("提交失败");
+            }
+        })
+    }
+    
+    function logout() {
+        document.cookie = "user_name" + "="+ '' + ";expires=1; path=/";
+        document.cookie = "u_id" + "="+ '' + ";expires=1; path=/";
+        document.cookie = "status" + "="+ '' + ";expires=1; path=/";
+        tip("已退出！");
+        setTimeout("window.location.href='/'",1000);
+    }
+    {% if msg_cont %}
+    popTipShow.alert('管理员回复','{{msg_cont}}',['确 定', '取 消'],
+            function(e){
+                //callback 处理按钮事件
+                var button = $(e.target).attr('class');
+                if(button == 'ok'){
+                    //按下确定按钮执行的操作
+                    //todo ....
+                    this.hide();
+                }
+            }
+    );
+    {% end %}
+</script>
+</html>

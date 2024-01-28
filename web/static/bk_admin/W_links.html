@@ -1,0 +1,199 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="js/dataTables.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        layui.use(['form'], function () {
+            var form = layui.form();
+            form.render();
+            $("#myaddClick").click(function () {
+                $("#add").show();
+                $(".addList").hide();
+            });
+        });
+    </script>
+</head>
+<body>
+    <a class='layui-btn addList'  id="myaddClick"><i class="layui-icon">
+        &#xe61f;</i> 添加链接<!--href="G_links.html?action=tab1"--></a>
+    <button class="layui-btn addList" lay-submit="" lay-filter="demo2" onclick="get_link_list()">
+                刷新表格</button>
+    <button class="layui-btn addList" lay-submit="" lay-filter="demo2" onclick="create_footer()">
+                生成静态页面</button>
+    <br/>
+    <br/>
+    <div style="display:none;" id="add">
+        <blockquote class="layui-elem-quote" >
+            添加友情链接</blockquote>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                网站名</label>
+            <div class="layui-input-block">
+                <input type="text" id="link_name" value="" lay-verify="required"
+                    placeholder="请输入网站名" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                链接地址</label>
+            <div class="layui-input-block">
+                <input type="text" id="link_address" value="" lay-verify="url"
+                    class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                链接排序</label>
+            <div class="layui-input-inline">
+                <input type="number" id="link_sort" value="" lay-verify="number"
+                    placeholder="请输入链接排序" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" onclick="add_link()" >
+                    立即添加</button>
+                <button type="reset" class="layui-btn layui-btn-primary">
+                    重置</button>
+            </div>
+        </div>
+
+    </div>
+    <table lay-even class="layui-table addList" lay-skin="line"  id="datatable">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    网站名
+                </th>
+                <th>
+                    链接地址
+                </th>
+                <th>
+                    链接排序
+                </th>
+                <th>
+                    操作
+                </th>
+            </tr>
+        </thead>
+    </table>
+</body>
+<script>
+    $(document).ready(function(){
+        get_link_list()
+    });
+
+    function get_link_list() {
+         $.ajax({
+			url: "/sengo/xhj/link_list",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    load_data(data['data'])
+                }
+			}
+		});
+    }
+
+    var destroy_datatable = function() {
+		var table_old = $('#datatable').DataTable();
+		if(table_old != null) {
+			table_old.destroy();
+		}
+	};
+
+    function load_data(data) {
+        destroy_datatable();
+        $('#datatable').DataTable({
+			"data": data,
+			"paging": true,
+			"iDisplayLength": 10, //默认每页数量
+            "bPaginate": true, //翻页功能
+			"bRetrieve": true,
+			"info": false,
+			"searching": false,
+			"columns": [
+                { "data": "id" },
+                { "data": "link_name" },
+                { "data": "link_address" },
+                { "data": "link_sort" }
+			],
+         "columnDefs": [{
+				"targets": 4,
+				"data": "id",
+				"render": function(data, t, full) {
+                        return '<a class="layui-btn layui-btn-small layui-btn-danger"  onclick="del_link('+data+')"><i class="layui-icon">&#xe640;</i> 删除</a>'
+				}
+			}]
+		});
+    }
+
+    function del_link(id) {
+        $.ajax({
+			url: "/sengo/xhj/del_link",
+			type: "post",
+			data: {
+			    "id": id
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    alert("删除成功")
+                }else {
+                    alert("删除失败")
+                }
+			}
+		});
+    }
+    
+    function add_link() {
+        var link_name = $('#link_name').val();
+        var link_address = $('#link_address').val();
+        var link_sort = $('#link_sort').val();
+        $.ajax({
+			url: "/sengo/xhj/set_link",
+			type: "post",
+			data: {
+			    "link_name": link_name,
+			    "link_address": link_address,
+			    "link_sort": link_sort
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    alert("添加成功")
+                }else {
+                    alert("添加失败")
+                }
+			}
+		});
+    }
+
+    function create_footer() {
+        $.ajax({
+			url: "/sengo/xhj/dynamic/create_footer",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    alert("成功")
+                }else {
+                    alert("失败")
+                }
+			}
+		});
+    }
+</script>
+</html>

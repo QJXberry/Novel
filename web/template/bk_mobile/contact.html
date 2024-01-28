@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,initial-scale=1">
+    <title>联系小鸡-小黄鸡小说手机站</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <link rel="stylesheet" href="../../static/bk_mobile/css/style.css" />
+    <link rel="stylesheet" href="../../static/base/css/base.css"/>
+    <script src="../../static/bk_mobile/js/bc_web.js"></script>
+    <script src="../../static/bk_mobile/js/baidu.js" charset="gbk"></script>
+</head>
+<body>
+<header class="top c_big" id="top">
+    <div class="span2">
+        <div class="index-login" style="text-align: left">
+            <a class="header-link "  href="javascript:;" >返回</a>
+        </div>
+    </div>
+    <div class="span8 chapter-title">联系小鸡</div>
+    <div class="span2">
+        <div class="index-login">
+            <a class="header-link c_float_right" href="index.html" >首页</a>
+        </div>
+    </div>
+</header>
+<div class="contact-box">
+    <div class="group">
+        <img src="../../static/base/images/qq.png"/>小黄鸡书友交流群：637915294
+    </div>
+    <div class="contact-panel">
+        <form action="" method="post">
+        <div class="c_item">
+            <span >您的姓名</span><input id="username" type="text" placeholder="请输入您的姓名" maxlength="40" name="msg_name"/>
+        </div>
+        <div class="c_item">
+            <span >联系方式</span><input id="phone" type="text" placeholder="请输入您的联系方式" maxlength="20" name="msg_phone"/>
+        </div>
+        <div class="c_item">
+            <span >留言内容</span><textarea id="info" type="text" name="msg_cont" placeholder="请输入留言内容，我们会尽快与您联系！" maxlength="200" ></textarea>
+        </div>
+        <div class="c_item">
+            <input  type="button" value="提交" onclick="addContactInfo();" />
+        </div>
+        </form>
+    </div>
+    <section class="manager-info">
+        <p style="font-size:17px">
+            <a href="/">首页</a>
+            <a href="/class/100/1">排行</a>
+            <a href="/class/1/1">分类</a>
+            <a href="/class/98/1">原创</a>
+            <a href="http://www.xhjbook.com">电脑版</a>
+        </p>
+        <p>
+        少年，多运动。<br/>
+        妹纸，多学习。<br/>
+        小黄鸡陪你读好书。<br/>
+        </p>
+        <div class="code-box"><img src="../../static/base/images/code.jpg"/></div>
+    </section>
+</div>
+<div class="contact-tip" id="contact-tip">
+    <p>不许为空</p>
+</div>
+<!-- 以下footer替换 -->
+{% include 'footer.html' %}
+<!-- footer结束 -->
+</body>
+<script type="text/javascript">
+    //获取联系小鸡页面信息
+    function  addContactInfo() {
+        var msg_name = document.getElementById("username").value.replace(/(^\s*)|(\s*$)/g,"").toString();//获取用户名
+        var msg_phone = document.getElementById("phone").value.replace(/(^\s*)|(\s*$)/g,"").toString();//获取用户联系方式
+        var msg_cont = document.getElementById("info").value.replace(/(^\s*)|(\s*$)/g,"").toString();//获取用户输入信息
+        var u_len = msg_name.replace(/[\u0391-\uFFE5]/g,"aa").length;//用户名长度
+        var p_len = msg_phone.replace(/[\u0391-\uFFE5]/g,"aa").length;//联系方式长度
+        var i_len = msg_cont.replace(/[\u0391-\uFFE5]/g,"aa").length;//输入信息长度
+
+            //判断是否有空
+        
+        if(msg_name == ""){
+                tip("请输入用户名！");
+        }else if (msg_phone == ""){
+                tip("请输入联系方式！");
+        }else if( msg_cont == ""){
+                tip("请输入留言内容！");
+        } else {
+                if(u_len >40){
+                    tip("用户名过长！");
+                }else if(p_len > 20){
+                    tip("联系方式过长！");
+                }else if(i_len > 200){
+                    tip("输入信息过长！");
+                }else{
+                //获取数据
+                ajax({
+                    type:"POST",
+                    url:"/contact",
+                    dataType:"json",
+                    data:{
+                        "msg_name":msg_name,
+                        "msg_phone":msg_phone,
+                        "msg_cont":msg_cont
+                    },
+                    success:function(msg){
+                        //提交成功后执行
+                        if(msg["ret"] != 0){
+                            tip(msg["msg"]);
+                        }else {
+                            tip(msg["msg"]);//提示提交成功
+                            setTimeout("window.location.href='/'",1000);
+                        }
+                    },
+                    error:function(){
+                        //提价失败后执行
+                        tip("提交失败")//提示提交失败
+                    }
+                })
+            }
+        }
+    }
+    
+</script>
+</html>

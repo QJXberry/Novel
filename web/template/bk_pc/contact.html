@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" Content="text/html; Charset=gbk">
+    <title>联系小鸡-小黄鸡小说网</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <link rel="shortcut icon" href="../../static/base/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../static/bk_pc/css/main.css"/>
+    <link rel="stylesheet" href="../../static/bk_pc/css/alertPopShow.css" >
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/alertPopShow.js" charset="gbk"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/common.js" charset="gbk"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/ZoomPic.js" charset="gbk"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/baidu.js" charset="gbk"></script>
+</head>
+<body>
+<!-- 以下header 可替换 -->
+{% include 'header.html' %}
+<!-- header 结束 -->
+
+<!-- 以下div.nav 可替换 -->
+{% include 'nav.html' %}
+<!-- div.nav 结束 -->
+<div class="main">
+    <div class="wrap class register contact">
+        <div class="inner">
+            <div class="title">联系小鸡</div>
+            <div class="details">
+                <form action="/">
+                    <p><label>您的姓名</label><input type="text" id="msg_name" placeholder="请输入您的姓名" /></p>
+                    <p><label>联系方式</label><input type="text" id="msg_phone" placeholder="请输入您的联系方式"/></p>
+                    <p><label>留言内容</label><textarea id="msg_cont" placeholder="请输入您的留言，我们会尽快与您联系！"></textarea></p>
+                    <p><input type="button" onclick="contact()" value="提交" class="submit-btn mlong"/></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--右侧浮动导航 可共用-->
+{% include 'float.html' %}
+<!--右侧浮动导航 结束-->
+
+<!-- 以下div.footer 可替换 -->
+{% include 'footer.html' %}
+<!-- div.footer 结束 -->
+</body>
+<script>
+    function verify_blank(msg_name, msg_phone, msg_cont) {
+        if(msg_name.length == 0){
+            webToast("请输入姓名！", "middle");
+            return false
+        }
+        if(msg_phone.length == 0){
+            webToast("请输入联系方式！", "middle");
+            return false
+        }
+        if(msg_cont.length == 0){
+            webToast("请输入留言内容！", "middle");
+            return false
+        }
+        return true
+    }
+
+    function contact() {
+        var msg_name = $.trim($('#msg_name').val().toString());
+        var msg_phone = $.trim($('#msg_phone').val().toString());
+        var msg_cont = $.trim($('#msg_cont').val().toString());
+
+        var result = verify_blank(msg_name, msg_phone, msg_cont);
+        if(result == false){
+            return false
+        }
+        $.ajax({
+			url: "/contact",
+			type: "post",
+			data: {
+			    "msg_name": msg_name,
+                "msg_phone": msg_phone,
+                "msg_cont": msg_cont
+			},
+			success: function(data) {
+                if(data['ret'] == 0 ){
+                    webToast("留言成功")
+                }else{
+                    webToast("留言失败")
+                }
+			}
+		});
+    }
+</script>
+</html>

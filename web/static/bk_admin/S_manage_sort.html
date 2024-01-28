@@ -1,0 +1,127 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>类型管理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="js/dataTables.js" type="text/javascript"></script>
+</head>
+<body>
+    <blockquote class="layui-elem-quote">
+       <span style="color: Red;"> 提示：</span> 优先级越大则书排在越前面 （当前只显示优先级最高的前50本）  </blockquote>
+    <input name="depth" type="hidden" value="" />
+    <input name="parentType" type="hidden" value="" />
+    <input name="leix" value="" type="hidden" />
+    <div class="layui-form-item">
+
+        <div class="layui-inline">
+            <label class="layui-form-label">
+                书名</label>
+            <div class="layui-input-inline">
+                <input type="text" id="bk_name"  lay-verify="required" class="layui-input" value="">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">
+                优先级</label>
+            <div class="layui-input-block">
+                <input type="number"  id="bk_sort" lay-verify="number" class="layui-input"
+                    value="">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="update_sort()">
+                提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="get_sort_list()">
+                刷新表格</button>
+        </div>
+    </div>
+    <table class="layui-table" id="datatable">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    书名
+                </th>
+                <th>
+                    优先级
+                </th>
+            </tr>
+        </thead>
+    </table>
+</body>
+
+<script>
+    $(document).ready(function(){
+        get_sort_list()
+    });
+
+    function get_sort_list() {
+        $.ajax({
+			url: "/sengo/xhj/sort_list",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    load_data(data['data'])
+                }
+			}
+		});
+    }
+
+    var destroy_datatable = function() {
+		var table_old = $('#datatable').DataTable();
+		if(table_old != null) {
+			table_old.destroy();
+		}
+	};
+
+    function load_data(data) {
+        destroy_datatable();
+        $('#datatable').DataTable({
+			"data": data,
+			"paging": true,
+			"iDisplayLength": 10, //默认每页数量
+            "bPaginate": true, //翻页功能
+			"bRetrieve": true,
+			"info": false,
+			"searching": false,
+			"columns": [
+                { "data": "bk_id" },
+                { "data": "bk_name" },
+                { "data": "bk_sort" }
+			]
+
+		});
+    }
+
+    function update_sort() {
+        var bk_name = $('#bk_name').val();
+        var bk_sort = $('#bk_sort').val();
+        $.ajax({
+			url: "/sengo/xhj/update_sort",
+			type: "post",
+			data: {
+			    'bk_name': bk_name,
+                'bk_sort': bk_sort
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    alert('修改成功')
+                }else {
+                    alert('修改失败')
+                }
+			}
+		});
+    }
+</script>
+</html>

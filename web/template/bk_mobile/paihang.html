@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,initial-scale=1">
+    <title>总排行_小黄鸡小说手机站</title>
+    <meta name="keywords" content="总排行小说, 总排行排行榜，小黄鸡小说手机站"/>
+    <meta name="description" content="小黄鸡小说网,总排行小说排行，每天更新，无弹窗无广告"/>
+    <link rel="stylesheet" href="../../static/bk_mobile/css/style.css" />
+    <link rel="stylesheet" href="../../static/base/css/base.css"/>
+    <script src="../../static/bk_mobile/js/baidu.js" charset="gbk"></script>
+</head>
+<body>
+    <header class="top c_big" id="top">
+        <div class="span2">
+            <div class="index-login" style="text-align: left">
+                <a class="header-link "  href="/bookcase" >书架</a>
+            </div>
+        </div>
+        <div class="span8 chapter-title">排行榜</div>
+        <div class="span2">
+            <div class="index-login">
+                <a class="header-link c_float_right" href="/" >首页</a>
+            </div>
+        </div>
+    </header>
+    <div class="class-panel">
+       {% include 'sort.html' %}
+        {% include 'find.html' %}
+        <div class="recommend">
+            <div class="s_list">
+                <dl class="sort-dl">
+                    <dt><span>热门小说</span></dt>
+                    <dd>
+                        {% set i = 1 %}
+                         {% for bk in rmxs_list %}
+                         {% if i < 2%}
+                        <div class="recommend-item sort-item">
+                            <a href="/{{bk.get('bk_id')}}">
+                                <div class="recommend-item-left">
+                                    <img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}">
+                                </div>
+                                <div class="recommend-item-right">
+                                    <p class="novel-name">{{bk.get('bk_name')}}<span class="ball {{bk.get('bk_ball')}}"></span></p>
+                                    <p class="author">作者:&nbsp;{{bk.get('bk_author')}}</p>
+                                    <div class="biref">{{bk.get('bk_abstract')}}</div>
+                                </div>
+                            </a>
+                        </div>
+                          {% end %}
+                         {% set i += 1%}
+                         {% end %}
+                         <ul>
+                            {% set i = 1 %}
+                            {% for bk in rmxs_list %}
+                            {% if i >= 2%}
+                            <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                            {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                        </ul>
+                    </dd>
+                </dl>
+                    <dl class="sort-dl">
+                    <dt><span>热追现言</span></dt>
+                    <dd>
+                        {% set i = 1 %}
+                         {% for bk in rzxy_list %}
+                         {% if i < 2%}
+                        <div class="recommend-item sort-item">
+                            <a href="/{{bk.get('bk_id')}}">
+                                <div class="recommend-item-left">
+                                    <img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}">
+                                </div>
+                                <div class="recommend-item-right">
+                                    <p class="novel-name">{{bk.get('bk_name')}}<span class="ball {{bk.get('bk_ball')}}"></span></p>
+                                    <p class="author">作者:&nbsp;{{bk.get('bk_author')}}</p>
+                                    <div class="biref">{{bk.get('bk_abstract')}}</div>
+                                </div>
+                            </a>
+                        </div>
+                          {% end %}
+                         {% set i += 1%}
+                         {% end %}
+                         <ul>
+                            {% set i = 1 %}
+                            {% for bk in rzxy_list %}
+                            {% if i >= 2%}
+                            <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                            {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                        </ul>
+                    </dd>
+                </dl>
+
+                <dl class="sort-dl">
+                <dt><span>热追古言</span></dt>
+                    <dd>
+                        {% set i = 1 %}
+                         {% for bk in rzgy_list %}
+                         {% if i < 2%}
+                        <div class="recommend-item sort-item">
+                            <a href="/{{bk.get('bk_id')}}">
+                                <div class="recommend-item-left">
+                                    <img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}">
+                                </div>
+                                <div class="recommend-item-right">
+                                    <p class="novel-name">{{bk.get('bk_name')}}<span class="ball {{bk.get('bk_ball')}}"></span></p>
+                                    <p class="author">作者:&nbsp;{{bk.get('bk_author')}}</p>
+                                    <div class="biref">{{bk.get('bk_abstract')}}</div>
+                                </div>
+                            </a>
+                        </div>
+                          {% end %}
+                         {% set i += 1%}
+                         {% end %}
+                         <ul>
+                            {% set i = 1 %}
+                            {% for bk in rzgy_list %}
+                            {% if i >= 2%}
+                            <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                            {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                        </ul>
+                    </dd>
+                </dl>
+
+                <dl class="sort-dl">
+                <dt><span>热追幻言</span></dt>
+                    <dd>
+                        {% set i = 1 %}
+                         {% for bk in rzhy_list %}
+                         {% if i < 2%}
+                        <div class="recommend-item sort-item">
+                            <a href="/{{bk.get('bk_id')}}">
+                                <div class="recommend-item-left">
+                                    <img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}">
+                                </div>
+                                <div class="recommend-item-right">
+                                    <p class="novel-name">{{bk.get('bk_name')}}<span class="ball {{bk.get('bk_ball')}}"></span></p>
+                                    <p class="author">作者:&nbsp;{{bk.get('bk_author')}}</p>
+                                    <div class="biref">{{bk.get('bk_abstract')}}</div>
+                                </div>
+                            </a>
+                        </div>
+                          {% end %}
+                         {% set i += 1%}
+                         {% end %}
+                         <ul>
+                            {% set i = 1 %}
+                            {% for bk in rzhy_list %}
+                            {% if i >= 2%}
+                            <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                            {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                        </ul>
+                    </dd>
+                </dl>
+
+                <dl class="sort-dl">
+                <dt><span>热门男频</span></dt>
+                    <dd>
+                        {% set i = 1 %}
+                         {% for bk in rmnp_list %}
+                         {% if i < 2%}
+                        <div class="recommend-item sort-item">
+                            <a href="/{{bk.get('bk_id')}}">
+                                <div class="recommend-item-left">
+                                    <img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}">
+                                </div>
+                                <div class="recommend-item-right">
+                                    <p class="novel-name">{{bk.get('bk_name')}}<span class="ball {{bk.get('bk_ball')}}"></span></p>
+                                    <p class="author">作者:&nbsp;{{bk.get('bk_author')}}</p>
+                                    <div class="biref">{{bk.get('bk_abstract')}}</div>
+                                </div>
+                            </a>
+                        </div>
+                          {% end %}
+                         {% set i += 1%}
+                         {% end %}
+                         <ul>
+                            {% set i = 1 %}
+                            {% for bk in rmnp_list %}
+                            {% if i >= 2%}
+                            <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                            {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                        </ul>
+                    </dd>
+                </dl>
+
+
+
+                <!-- 以下tip替换 -->
+                {% include 'tip.html' %}
+                <!-- tip结束-->
+             </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 以下footer替换 -->
+    {% include 'footer.html' %}
+    <!-- footer结束 -->
+</body>
+
+</html>

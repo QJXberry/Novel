@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>小黄鸡热门小说免费阅读平台</title>
+    <meta name="keywords" content="小黄鸡言情网、小黄鸡热门小说阅读、小说免费在线阅读、耽美小说阅读、热门小说下载、txt下载、热门小说最新更新"/>
+    <meta name="description" content="小黄鸡海量热门小说免费阅读平台，万千读者喜爱的小说阅读网。"/>
+    <link rel="stylesheet" href="../../static/bk_mobile/css/style.css" />
+    <link rel="stylesheet" href="../../static/base/css/base.css"/>
+    <link rel="stylesheet" href="../../static/bk_mobile/css/swiper.css" />
+    <script src="../../static/bk_mobile/js/swiper.js" charset="gbk"></script>
+    <script src="../../static/bk_mobile/js/baidu.js" charset="gbk"></script>
+</head>
+<body>
+     <header id="top" class="top c_big">
+
+             <div class="span7">
+                 <span class="header-logo"><img src="../../static/base/images/xhj1.png" alt="logo"></span><label class="c_float_left">小黄鸡阅读</label>
+             </div>
+             <div class="span5">
+                 <div class="index-login" hidden>
+                     <div class="c_float_right">
+                         <a class="header-link" href="/login" >登录</a>
+                         <a class="header-link" href="/register" >注册</a>
+                     </div>
+                 </div>
+                 <a href="/bookcase" class="index-login-y" hidden><label class="user-name"></label></a>
+             </div>
+
+     </header>
+     <!--新增海报轮播-->
+     <section>
+         <div class="swiper-container" id="slide-box">
+             <ul class="swiper-wrapper">
+                 {% for new in new_list %}
+                 <li class="swiper-slide"><a href="{{new.get('ad_url')}}"><img src="/new/{{new.get('file_name')}}.jpg" ></a></li>
+                 {% end %}
+             </ul>
+         </div>
+     </section>
+
+     <!--导航-->
+     <div class="header-nav">
+         <ul>
+             <li>
+                 <a href="/class/1/1">
+                    <img src="../../static/base/images/nav/type_icon.png" alt="分类">
+                     <span>分类</span>
+                 </a>
+             </li>
+             <li>
+                 <a href="/class/100/1">
+                     <img src="../../static/base/images/nav/ranking_icon.png" alt="排行">
+                     <span>排行</span>
+                 </a>
+             </li>
+             <li>
+                 <a href="/class/98/1">
+                     <img src="../../static/base/images/nav/perfect_icon.png" alt="精品">
+                     <span>精品</span>
+                 </a>
+             </li>
+             <li>
+                 <a href="/class/99/1">
+                     <img src="../../static/base/images/nav/book_icon.png" alt="全本">
+                     <span>全本</span>
+                 </a>
+             </li>
+
+         </ul>
+     </div>
+
+     {% include 'find.html' %}
+
+     <!--公告栏-->
+     <section class="notice">
+         <div class="notice-title">
+             <div class="notice-title-img"></div>
+         </div>
+         <div class="notice-cont" id="notice-slide">
+             <a href="javascript:;" class="notice-list" >
+                 <ul>
+                     {% for a in announce %}
+                     {% if a.get('red')%}
+                     <li><span class="notice-type">{{a.get('a_announce')}}</span></li>
+                     {% else %}
+                     <li> {{a.get('a_announce')}} </li>
+                     {% end %}
+                     {% end %}
+                 </ul>
+             </a>
+
+              <a href="javascript:;" class="notice-list" >
+                 <ul>
+                     {% for a in announce %}
+                     {% if a.get('red')%}
+                     <li><span class="notice-type">{{a.get('a_announce')}}</span></li>
+                     {% else %}
+                     <li> {{a.get('a_announce')}} </li>
+                     {% end %}
+                     {% end %}
+                 </ul>
+             </a>
+         </div>
+
+     </section>
+
+     <div class="title c_big">
+         小鸡推荐
+     </div>
+     <div class="recommend">
+         <div class="recommend-panel">
+             {% for bk in recom_bks %}
+             <div class="recommend-item">
+                 <a href="/{{bk.get('bk_id')}}">
+                     <div class="recommend-item-left">
+                         <img src="/pic/{{bk.get('bk_id')}}.jpg" onerror="this.src='/pic/0.jpg'">
+                     </div>
+                     <div class="recommend-item-right">
+                         <p class="novel-name">{{bk.get('bk_name')}}<span class="ball {{bk.get('bk_ball')}}"></span></p>
+                         <p class="author">作者:&nbsp;{{bk.get('bk_author')}}</p>
+                         <div class="biref">&nbsp;&nbsp;&nbsp;&nbsp;{{bk.get('bk_abstract')}}</div>
+                     </div>
+                 </a>
+             </div>
+             {% end %}
+         </div>
+
+
+
+         </div>
+     <!--一块分类1-->
+         <div class="hot-panel">
+
+             <div class="hot">
+                 <div class="hot-title">
+                     <span class="c_big_border c_big">热门小说</span>
+                     <a class="more" href="/class/1/1">更多>></a><img class="xhj" src="../../static/base/images/xhj.png" />
+                 </div>
+                 <!--有图片的-->
+                 <div class="hot-has-cover">
+                     <ul>
+                             {% set i = 1 %}
+                             {% for bk in rmxs_list %}
+                             {% if i < 4%}
+                             <li>
+                             <a href="/{{bk.get('bk_id')}}"><img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}" onerror="this.src='/pic/0.jpg'"></a>
+                             <p><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a></p>
+                             </li>
+                             {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                     </ul>
+                 </div>
+                 <!--没有图片的-->
+                 <div class="s_list">
+                     <ul>
+                         {% set i = 1 %}
+                         {% for bk in rmxs_list %}
+                         {% if i > 3%}
+                         <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                          {% end %}
+                          {% set i += 1%}
+                          {% end %}
+
+                     </ul>
+                 </div>
+
+             </div>
+             </div>
+         </div>
+        <!--一块分类结束-->
+     <!--一块分类2-->
+         <div class="hot-panel">
+
+             <div class="hot">
+                 <div class="hot-title">
+                     <span class="c_big_border c_big">热追现言</span>
+                     <a class="more" href="/class/2/1">更多>></a><img class="xhj" src="../../static/base/images/xhj.png" />
+                 </div>
+                 <!--有图片的-->
+                 <div class="hot-has-cover">
+                     <ul>
+                             {% set i = 1 %}
+                             {% for bk in rzxy_list %}
+                             {% if i < 4%}
+                             <li>
+                             <a href="/{{bk.get('bk_id')}}"><img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}" onerror="this.src='/pic/0.jpg'"></a>
+                             <p><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a></p>
+                             </li>
+                             {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                     </ul>
+                 </div>
+                 <!--没有图片的-->
+                 <div class="s_list">
+                     <ul>
+                         {% set i = 1 %}
+                         {% for bk in rzxy_list %}
+                         {% if i > 3%}
+                         <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                          {% end %}
+                          {% set i += 1%}
+                          {% end %}
+
+                     </ul>
+                 </div>
+
+             </div>
+             </div>
+         </div>
+        <!--一块分类结束-->
+     <!--一块分类3-->
+         <div class="hot-panel">
+
+             <div class="hot">
+                 <div class="hot-title">
+                     <span class="c_big_border c_big">热追古言</span>
+                     <a class="more" href="/class/3/1">更多>></a><img class="xhj" src="../../static/base/images/xhj.png" />
+                 </div>
+                 <!--有图片的-->
+                 <div class="hot-has-cover">
+                     <ul>
+                             {% set i = 1 %}
+                             {% for bk in rzgy_list %}
+                             {% if i < 4%}
+                             <li>
+                             <a href="/{{bk.get('bk_id')}}"><img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}" onerror="this.src='/pic/0.jpg'"s></a>
+                             <p><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a></p>
+                             </li>
+                             {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                     </ul>
+                 </div>
+                 <!--没有图片的-->
+                 <div class="s_list">
+                     <ul>
+                         {% set i = 1 %}
+                         {% for bk in rzgy_list %}
+                         {% if i > 3%}
+                         <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                          {% end %}
+                          {% set i += 1%}
+                          {% end %}
+
+                     </ul>
+                 </div>
+
+             </div>
+             </div>
+         </div>
+        <!--一块分类结束-->
+     <!--一块分类4-->
+         <div class="hot-panel">
+
+             <div class="hot">
+                 <div class="hot-title">
+                     <span class="c_big_border c_big">热追幻言</span>
+                     <a class="more" href="/class/4/1">更多>></a><img class="xhj" src="../../static/base/images/xhj.png" />
+                 </div>
+                 <!--有图片的-->
+                 <div class="hot-has-cover">
+                     <ul>
+                             {% set i = 1 %}
+                             {% for bk in rzhy_list %}
+                             {% if i < 4%}
+                             <li>
+                             <a href="/{{bk.get('bk_id')}}"><img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}" onerror="this.src='/pic/0.jpg'"></a>
+                             <p><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a></p>
+                             </li>
+                             {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                     </ul>
+                 </div>
+                 <!--没有图片的-->
+                 <div class="s_list">
+                     <ul>
+                         {% set i = 1 %}
+                         {% for bk in rzhy_list %}
+                         {% if i > 3%}
+                         <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                          {% end %}
+                          {% set i += 1%}
+                          {% end %}
+
+                     </ul>
+                 </div>
+
+             </div>
+             </div>
+         </div>
+        <!--一块分类结束-->
+     <!--一块分类5-->
+         <div class="hot-panel">
+
+             <div class="hot">
+                 <div class="hot-title">
+                     <span class="c_big_border c_big">热门男频</span>
+                     <a class="more" href="/class/5/1">更多>></a><img class="xhj" src="../../static/base/images/xhj.png" />
+                 </div>
+                 <!--有图片的-->
+                 <div class="hot-has-cover">
+                     <ul>
+                             {% set i = 1 %}
+                             {% for bk in rmnp_list %}
+                             {% if i < 4%}
+                             <li>
+                             <a href="/{{bk.get('bk_id')}}"><img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}" onerror="this.src='/pic/0.jpg'"></a>
+                             <p><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a></p>
+                             </li>
+                             {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                     </ul>
+                 </div>
+                 <!--没有图片的-->
+                 <div class="s_list">
+                     <ul>
+                         {% set i = 1 %}
+                         {% for bk in rmnp_list %}
+                         {% if i > 3%}
+                         <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                          {% end %}
+                          {% set i += 1%}
+                          {% end %}
+
+                     </ul>
+                 </div>
+
+             </div>
+             </div>
+         </div>
+        <!--一块分类结束-->
+     <!--一块分类6-->
+         <div class="hot-panel">
+
+             <div class="hot">
+                 <div class="hot-title">
+                     <span class="c_big_border c_big">热读纯爱</span>
+                     <a class="more" href="/class/6/1">更多>></a><img class="xhj" src="../../static/base/images/xhj.png" />
+                 </div>
+                 <!--有图片的-->
+                 <div class="hot-has-cover">
+                     <ul>
+                             {% set i = 1 %}
+                             {% for bk in rdca_list %}
+                             {% if i < 4%}
+                             <li>
+                             <a href="/{{bk.get('bk_id')}}"><img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}" onerror="this.src='/pic/0.jpg'"></a>
+                             <p><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a></p>
+                             </li>
+                             {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                     </ul>
+                 </div>
+                 <!--没有图片的-->
+                 <div class="s_list">
+                     <ul>
+                         {% set i = 1 %}
+                         {% for bk in rdca_list %}
+                         {% if i > 3%}
+                         <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                          {% end %}
+                          {% set i += 1%}
+                          {% end %}
+
+                     </ul>
+                 </div>
+
+             </div>
+             </div>
+         </div>
+        <!--一块分类结束-->
+     <!--一块分类7-->
+         <div class="hot-panel">
+
+             <div class="hot">
+                 <div class="hot-title">
+                     <span class="c_big_border c_big">最新更新</span>
+                     <img class="xhj" src="../../static/base/images/xhj.png" />
+                 </div>
+                 <!--有图片的-->
+                 <div class="hot-has-cover">
+                     <ul>
+                             {% set i = 1 %}
+                             {% for bk in jctr_list %}
+                             {% if i < 4%}
+                             <li>
+                             <a href="/{{bk.get('bk_id')}}"><img src="/pic/{{bk.get('bk_id')}}.jpg" alt="{{bk.get('bk_name')}}" onerror="this.src='/pic/0.jpg'"></a>
+                             <p><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a></p>
+                             </li>
+                             {% end %}
+                             {% set i += 1%}
+                             {% end %}
+                     </ul>
+                 </div>
+                 <!--没有图片的-->
+                 <div class="s_list">
+                     <ul>
+                         {% set i = 1 %}
+                         {% for bk in jctr_list %}
+                         {% if i > 3%}
+                         <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}</span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                          {% end %}
+                          {% set i += 1%}
+                          {% end %}
+
+                     </ul>
+                 </div>
+
+             </div>
+             </div>
+         </div>
+        <!--一块分类结束-->
+
+     </div>
+     <!-- 以下tip替换 -->
+    {% include 'tip.html' %}
+     <!-- tip结束 -->
+     <!-- 以下footer替换 -->
+     {% include 'footer.html' %}
+     <!-- footer结束 -->
+</body>
+<script>
+    function getCookie(name) {
+        var strCookie = document.cookie;
+        var arrCookie = strCookie.split("; ");
+        for (var i = 0; i < arrCookie.length; i++) {
+            var arr = arrCookie[i].split("=");
+            if (arr[0] == name)return arr[1];
+        }
+        return "";
+    }
+
+    function get_login() {
+        var user_name = getCookie('user_name');
+        user_name = decodeURIComponent(user_name);
+        var status = getCookie('status');
+        if(status == 1) {
+            document.getElementsByClassName("index-login-y")[0].removeAttribute('hidden');
+            document.getElementsByClassName("user-name")[0].innerHTML = user_name
+        }else{
+            document.getElementsByClassName("index-login")[0].removeAttribute('hidden');
+        }
+    }
+    get_login();
+
+//轮播
+    window.onload= function () {
+        //轮播
+        var mySwiper = new Swiper('#slide-box',{
+            autoplay : 3000,
+            speed:500,
+            loop:true,
+            grabCursor: true,
+            paginationClickable:true
+        });
+
+    };
+</script>
+</html>

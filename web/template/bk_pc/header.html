@@ -1,0 +1,24 @@
+<div class="header" id="header">
+    <div class="wrap clearfix">
+        <div class="logo"><a href="/"><img src="../../static/bk_pc/images/logo.gif"/></a></div>
+        <div class="ser-box">
+            <form action="/search" method="post">
+            <input type="text" id="search-box" name="name" placeholder="请输入书名或作者..."/><input type="submit" value="搜索"/><b class="search-img"></b>
+            </form>
+        </div>
+        <ul class="head-plus">
+            <li><a href="http://writer.xhjbook.com/login" rel="nofollow"><img src="../../static/bk_pc/images/write.png"/>写书</a></li>
+            <li><a id="bookcase" class='y-bookcase' href="/bookcase"><img src="../../static/bk_pc/images/bookcase.png"/>书架</a></li>
+
+            <li class="n-login"><a href="/login"><img src="../../static/bk_pc/images/login.png"/>登录</a></li>
+            <li class="n-login"><a href="/register"><img src="../../static/bk_pc/images/register.png"/>注册</a> </li>
+
+            <li class="y-login"><a class="y-bookcase user-name" href="/bookcase"><img src="../../static/bk_pc/images/chicken.jpg"/><span id="user_name"></span></a></li>
+            <li class="y-login ml10"><a href="" onclick="logout()"><img src="../../static/bk_pc/images/quit.png" />退出</a></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    get_login();
+</script>

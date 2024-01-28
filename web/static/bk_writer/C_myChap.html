@@ -1,0 +1,174 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+<link rel="stylesheet" href="../bk_admin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="../bk_admin/css/myCss.css">
+<script src="../bk_admin/js/jquery-1.12.4.js" type="text/javascript"></script>
+<script src="../bk_admin/layui/layui.js" charset="utf-8"></script>
+<script src="../bk_admin/js/dataTables.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../bk_admin/css/jquery.dataTables.css">
+
+</head>
+<body>
+    <div class="layui-inline">
+            <label class="layui-form-label">
+                查找章节</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="" id="cp_name">
+            </div>
+    </div>
+     <div class="layui-inline">
+            <button class="layui-btn" onclick="ser_my_cp()">
+                查询</button>
+     </div>
+
+    <div class="layui-inline">
+            <label class="layui-form-label">
+                书名</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="" id="bk_name">
+            </div>
+    </div>
+     <div class="layui-inline">
+            <button class="layui-btn" onclick="set_finish()">
+                设为已完结</button>
+     </div>
+    <table lay-even class="layui-table addList" lay-skin="line"  id="datatable">
+        <thead>
+            <tr>
+                <th>
+                    书籍ID
+                </th>
+                <th>
+                    书籍名称
+                </th>
+                <th>
+                    章节ID
+                </th>
+                <th>
+                    章节名称
+                </th>
+
+            </tr>
+        </thead>
+    </table>
+
+    <div id="lay_page" style="text-align: center">
+    </div>
+</body>
+<script src="../bk_admin/js/common.js" charset="utf-8"></script>
+<script>
+    $(document).ready(function(){
+//        get_chap_list();
+    });
+
+    function get_chap_list() {
+         $.ajax({
+			url: "/my_chap",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    load_data(data['data']['data'])
+                }
+			}
+		});
+    }
+
+    function ser_my_cp() {
+        var cp_name = $.trim($('#cp_name').val().toString());
+         $.ajax({
+			url: "/search_chap",
+			type: "post",
+			data: {
+			    "cp_name": cp_name
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    load_data(data['data'])
+                }
+			}
+		});
+    }
+
+
+
+    var destroy_datatable = function() {
+		var table_old = $('#datatable').DataTable();
+		if(table_old != null) {
+			table_old.destroy();
+		}
+	};
+
+    function load_data(data) {
+        destroy_datatable();
+        $('#datatable').DataTable({
+			"data": data,
+			"paging": false,
+            "bPaginate": false, //翻页功能
+			"bRetrieve": true,
+			"info": false,
+			"searching": false,
+			"columns": [
+                { "data": "bk_id" },
+                { "data": "bk_name" },
+                { "data": "cp_id" },
+                { "data": "cp_name" }
+			]
+		});
+    }
+
+
+    function set_finish() {
+        var bk_name = $.trim($('#bk_name').val().toString());
+        $.ajax({
+			url: "/set_finish",
+			type: "post",
+			data: {
+			    "bk_name": bk_name
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    alert("成功")
+                }else {
+                    alert("失败")
+                }
+			}
+		});
+    }
+
+</script>
+
+<script>
+
+    function layer_page(curr){
+      layui.use(['laypage', 'layer'], function(){
+          var laypage = layui.laypage;
+
+          $.post('/my_chap', {
+            page_index: curr || 1 //向服务端传的参数，此处只是演示
+          }, function(res){
+            //显示分页
+            load_data(res['data']['data']);
+            laypage({
+              cont: 'lay_page', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+              pages: res['data']['total_page'], //通过后台拿到的总页数
+              curr: curr || 1, //当前页
+              jump: function(obj, first){ //触发分页后的回调
+                if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
+                  layer_page(obj.curr);
+                }
+              }
+            });
+          });
+      });
+    }
+//运行
+layer_page();
+
+</script>
+</html>

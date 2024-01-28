@@ -1,0 +1,163 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+
+    <script type="text/javascript">
+        layui.use(['form', 'upload', 'layedit'], function () {
+            var form = layui.form(), layedit = layui.layedit;
+            form.render();
+
+            layedit.build('content', {
+                height: 370 //设置编辑器高度
+            });
+
+            layui.upload({
+                url: 'perform/updateImg_do.html'
+                 , before: function (input) {
+                     parent.layer.msg('正在上传...', {
+                         icon: 16
+                        , shade: 0.01
+                     });
+                 }
+                , success: function (res) {
+                    var id = $("#myimgList a:last").attr("id");
+                    if (id == undefined || id == null) {
+                        id = "0";
+                    } else {
+                        id++;
+                    }
+
+                    $("#myimgList").append('<img id="img' + id + '" src="' + "/UploadPhotos/" + res.msg + '" class="mydivimg" /> <a href="javascript:myDelImg(' + id + ')" title="删除本张图片" id="a' + id + '">删除</a>');
+                    parent.layer.closeAll('loading'); //关闭等待层
+
+                    var G_Img = $("#G_Img").val();
+                    $("#G_Img").val(G_Img + "/UploadPhotos/" + res.msg + ",");
+                    parent.layer.msg("上传成功!", { time: 500 });
+
+                }
+            });
+
+            $("#myimgList").on("click", ".mydivimg", function () {//图片点击事件
+                parent.layer.open({
+                    type: 1 //Page层类型
+                  , area: ['auto', 'auto']
+                  , title: false
+                  , closeBtn: 1
+                  , shadeClose: true
+                  , skin: 'layui-layer-nobg' //没有背景色
+                  , shade: 0.6 //遮罩透明度
+                  , maxmin: false //允许全屏最小化
+                  , anim: 5 //0-6的动画形式，-1不开启
+                  , content: '<div style="text-align:center"><img style = "max-width:1150px;" src="' + $(this).attr("src") + '" /></div>'
+                });
+            });
+
+        });
+
+        function myDelImg(id) {
+
+            var index = parent.layer.confirm('你确定要删除这张图片吗？', {
+                btn: ['删除', '我再想想'] //按钮
+            }, function () {
+                parent.layer.close(index);
+                $("#img" + id).remove();
+                $("#a" + id).remove();
+
+                $("#G_Img").val("")
+
+                $("#myimgList").children("img").each(function () {
+                    $("#G_Img").val($("#G_Img").val() + $(this).attr("src") + ",");
+                });
+
+            }, function () {
+                parent.layer.close(index);
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <form class="layui-form" action="perform/G_productadd_do.html" method="post">
+    <input type="hidden" id="leix" name="leix" value="" />
+    <input type="hidden" name="G_Img" id="G_Img" value="" />
+     <input type="hidden" name="txtG_alcohol" value="0">
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            类别</label>
+        <div class="layui-input-block">
+            <select name="txtG_Type" lay-verify='required'>
+                <option value="">请选择类别</option>
+                <option value="1">类型1</option>
+            </select>
+            
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            产品名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="txtG_Name" value="" lay-verify='required'
+                placeholder="请输入产品名称" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+            <label class="layui-form-label">
+                产品型号</label>
+            <div class="layui-input-block">
+                <input type="text" name="txtG_material" value="" lay-verify='required'
+                    placeholder="请输入产品型号" class="layui-input">
+            </div>
+    </div>
+    <div class="layui-form-item">
+        
+
+        <div class="layui-inline">
+            <label class="layui-form-label">
+                产品图片</label>
+            <div class="layui-input-inline">
+                <input type="file" name="file-demo" lay-type="images" class="layui-upload-file">
+
+            </div>
+            <div class="layui-form-mid layui-word-aux" style="padding: 0px;" id="myimgList">
+            
+            <img src="images/Head.jpg" id="img0" class='mydivimg' /> <a title="删除本张图片" href="javascript:myDelImg(0)" id="a0">删除</a>
+               
+            </div>
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            说明</label>
+        <div class="layui-input-block">
+            <textarea name="txtG_instructions" id="content" style="width: 850px; height: 420px;"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            推荐</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" name="txtG_recommended" checked="checked" lay-skin="switch" title="是否推荐">
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            是否在首页显示</div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" name="mybtn">
+                立即添加</button>
+            <button type="reset" class="layui-btn layui-btn-primary">
+                重置</button>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

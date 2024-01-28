@@ -1,0 +1,160 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>小鸡管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/myCss.css">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+        function ShowHiddenLeft() {
+
+            var sideWidth = $('#SiteSidebar').width();
+            if (sideWidth === 200) {
+                $('#connn').animate({
+                    left: '0'
+                });
+                $('#SiteSidebar').animate({
+                    width: '0'
+                });
+            } else {
+                $('#connn').animate({
+                    left: '200px'
+                });
+                $('#SiteSidebar').animate({
+                    width: '200px'
+                });
+            }
+        }
+
+        layui.use(['element', 'layer'], function () {
+            var element = layui.element()
+            , layer = layui.layer;
+            if ($("#myiframe").css("height") == "150px") {
+                $("#connn").css("height", "781px")
+            }
+        });
+        //跳转iframe
+        function ChangePage(strStr) {
+            $("#myiframe").attr("src", strStr);
+        }
+
+        function switchMy(num) {
+            $("[lay-filter='test']").hide();
+            $("#left" + num).show();
+        }
+
+    </script>
+</head>
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <!--头部-->
+        <div class="layui-header ymheader" style="background: #393d49;">
+            <a href="javascript:ChangePage('indexPage.html');" class="logo"><i class="layui-icon" style="font-size: 42px;">&#xe62e;</i>
+                小鸡管理系统</a>
+            <button class="layui-btn layui-btn-mini MyYinCang" title="隐藏/显示" onclick="javascript:ShowHiddenLeft()">
+                〓</button>
+            <ul class="layui-nav" style="float: right;">
+                <li class="layui-nav-item layui-this"><a href="javascript:switchMy(1);">网站管理</a></li>
+                <li class="layui-nav-item "><a href="javascript:switchMy(3);">书籍管理</a> </li>
+                <li class="layui-nav-item "><a href="javascript:switchMy(2);">用户管理</a> </li>
+                <!--<li class="layui-nav-item "><a href="javascript:switchMy(3);">原创管理</a> </li>-->
+                <li class="layui-nav-item "><a href="javascript:;" class="admin-header-user">
+                    <img src="images/Head.jpg" width="40" height="40" class="layui-circle" />
+                    <span>&nbsp;管理员</span></a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                             <a  href="javascript:void(0)" onclick="logout()"><i class="layui-icon">&#xe609;</i> 注销</a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <!--头部END-->
+        <!--侧栏-->
+        <div class="layui-side layui-bg-black" id="SiteSidebar">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test" id="left1">
+                    <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">网站管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:ChangePage('W_links.html');"><i class="layui-icon">&#xe64c;</i> 友情链接管理</a></dd>
+                            <dd>
+                                <a href="javascript:ChangePage('W_message.html');"><i class="layui-icon">&#xe611;</i>
+                                    留言管理</a></dd>
+                             <dd>
+                                <a href="javascript:ChangePage('W_manage_ad.html');"><i class="layui-icon">&#xe63a;</i> 广告管理</a></dd>
+                             <dd>
+                                <a href="javascript:ChangePage('W_manage_announce.html');"><i class="layui-icon">&#xe63a;</i> 公告管理</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+                <ul class="layui-nav layui-nav-tree" lay-filter="test" id="left2" style="display: none;">
+                    <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:ChangePage('Y_UserList.html');"><i class="layui-icon">
+                                    &#xe602;</i> 用户列表</a></dd>
+                            
+                        </dl>
+                    </li>
+                </ul>
+
+                <ul class="layui-nav layui-nav-tree" lay-filter="test" id="left3" style="display: none;">
+                    <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">书籍管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:ChangePage('S_change_pic.html');"><i class="layui-icon">
+                                    &#xe602;</i>更换封面</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:ChangePage('S_recom.html');"><i class="layui-icon">
+                                    &#xe602;</i>小鸡推荐</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:ChangePage('S_del_book.html');"><i class="layui-icon">
+                                    &#xe602;</i>删除书籍</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:ChangePage('S_manage_sort.html');"><i class="layui-icon">
+                                    &#xe602;</i>优先级设置</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:ChangePage('S_editChap.html');"><i class="layui-icon">
+                                    &#xe602;</i>修改章节</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:ChangePage('S_upload_txt.html');"><i class="layui-icon">
+                                    &#xe602;</i>上传整书</a>
+                            </dd>
+                        </dl>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+        <!--侧栏END-->
+        <!--内容-->
+        <div class="layui-body layui-tab-content" id="connn" style="bottom: 0px;">
+            <iframe src="indexPage.html" id="myiframe" style="height: 100%; width: 100%;" frameborder="no"
+                    border="0" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes">
+            </iframe>
+        </div>
+        <!--<div class="layui-footer footer footer-demo" style="height:24px; text-align:center; padding-top:6px;" id="admin-footer">2017 © Background management system</div>-->
+    </div>
+</body>
+<script>
+    function logout() {
+        document.cookie = "user_name" + "="+ '' + ";expires=1; path=/";
+        document.cookie = "u_id" + "="+ '' + ";expires=1; path=/";
+        document.cookie = "token" + "="+ '' + ";expires=1; path=/";
+        document.cookie = "name" + "="+ '' + ";expires=1; path=/";
+        setTimeout("window.location.href='/sengo/login'", 1000);
+    }
+</script>
+</html>

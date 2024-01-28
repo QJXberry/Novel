@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,initial-scale=1">
+    <title>小说查找-小黄鸡小说手机站</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <link rel="stylesheet" href="../../static/bk_mobile/css/style.css" />
+    <link rel="stylesheet" href="../../static/base/css/base.css"/>
+    <script src="../../static/bk_mobile/js/baidu.js" charset="gbk"></script>
+</head>
+<body>
+    <header class="top c_big" id="top">
+        <div class="span2">
+            <div class="index-login" style="text-align: left">
+                <a class="header-link "  href="/bookcase" >书架</a>
+            </div>
+        </div>
+        <div class="span8 chapter-title">搜索</div>
+        <div class="span2">
+            <div class="index-login">
+                <div class="c_float_right"><a class="header-link" href="/" >首页</a></div>
+            </div>
+        </div>
+    </header>
+    <div class="class-panel">
+        {% include 'sort.html' %}
+        {% include 'find.html' %}
+        <div class="recommend c_padding">
+            <div class="s_list">
+                <ul>
+                    {% for bk in bk_list %}
+                    <li><a href="/{{bk.get('bk_id')}}">[{{bk.get('tp_name')}}]<span class="novel">{{bk.get('bk_name')}}
+                    </span>{{bk.get('bk_author')}}<span class="ball {{bk.get('bk_ball')}}"></span></a> </li>
+                    {% end %}
+                </ul>
+                <!-- 以下tip替换 -->
+                {% include 'tip.html' %}
+                <!-- tip结束-->
+                <div class="pages">
+                    <div class="page_link">
+                          <a class="index-page" href="/search?name={{name}}&page=1">首页</a>
+                        <a class="pre-page" href="/search?name={{name}}&page={{pre_id}}">上页</a>
+                        <a class="next-page" href="/search?name={{name}}&page={{next_id}}">下页</a>
+                        <a class="last-page" href="/search?name={{name}}&page={{total_page}}">尾页</a>
+                    </div>
+                    <div class="page">
+                        <kbd><span>输入页码跳转</span>
+                            <input id="page-input" type="text" onkeydown="if(event.keyCode==13){window.location='/search/{{name}}/<{$page}>'.replace('<{$page|subdirectory}>', '/' + Math.floor(this.value / 1000)).replace('<{$page}>', this.value); return false;}" /><span class="all-page">({{page_index}}/{{total_page}})</span></kbd>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 以下footer替换 -->
+    {% include 'footer.html' %}
+    <!-- footer结束 -->
+</body>
+
+</html>

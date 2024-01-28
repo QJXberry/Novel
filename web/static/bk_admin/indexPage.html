@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head >
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            parent.layer.msg('登陆成功！', { icon: 1, time: 1500 });
+        });
+    </script>
+
+</head>
+<body>
+
+    <p class="hello-user">
+       Hi, 小黄鸡！
+    </p>
+
+    <div class="panel_box row">
+        <div class="panel col">
+            <a href="javascript:;">
+                <div class="panel_icon">
+                    <i class="layui-icon">&#xe63a;</i>
+                </div>
+                <div class="panel_word newMessage">
+                    <span id="msg"></span>
+                    <cite>留言数</cite>
+                </div>
+            </a>
+        </div>
+        <!--<div class="panel col">-->
+            <!--<a href="javascript:;">-->
+                <!--<div class="panel_icon" style="background-color:#FF5722;">-->
+                    <!--<i class="layui-icon">&#xe61f;</i>-->
+                <!--</div>-->
+                <!--<div class="panel_word userAll">-->
+                    <!--<span>3</span>-->
+                    <!--<cite>新增人数</cite>-->
+                <!--</div>-->
+            <!--</a>-->
+        <!--</div>-->
+        <div class="panel col">
+            <a href="javascript:;">
+                <div class="panel_icon" style="background-color:#009688;">
+                    <i class="layui-icon">&#xe613;</i>
+                </div>
+                <div class="panel_word userAll">
+                    <span id="user"></span>
+                    <cite>用户总数</cite>
+                </div>
+            </a>
+        </div>
+        <!--<div class="panel col">-->
+            <!--<a href="javascript:;">-->
+                <!--<div class="panel_icon" style="background-color:#5FB878;">-->
+                    <!--<i class="layui-icon">&#xe64a;</i>-->
+                <!--</div>-->
+                <!--<div class="panel_word imgAll">-->
+                    <!--<span>31</span>-->
+                    <!--<cite>图片总数</cite>-->
+                <!--</div>-->
+            <!--</a>-->
+        <!--</div>-->
+        <div class="panel col">
+            <a href="javascript:;">
+                <div class="panel_icon" style="background-color:#F7B824;">
+                    <i class="layui-icon">&#xe621;</i>
+                </div>
+                <div class="panel_word waitNews">
+                    <span id="bk"></span>
+                    <cite>书籍总数</cite>
+                </div>
+            </a>
+        </div>
+        <div class="panel col max_panel">
+            <a href="javascript:;" >
+                <div class="panel_icon" style="background-color:#2F4056;">
+                    <i class="layui-icon">&#xe60a;</i>
+                </div>
+                <div class="panel_word allNews">
+                    <span id="cp"></span>
+                    <cite>章节总数</cite>
+                </div>
+            </a>
+        </div>
+    </div>
+   
+</body>
+<script>
+     function set_data() {
+         //总书数
+        $.ajax({
+			url: "/sengo/xhj/total_books",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data){
+                    $('#bk').text(data)
+                }
+			}
+		});
+        //总章节 缓存1小时
+        $.ajax({
+			url: "/sengo/xhj/total_chapters",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data){
+                    $('#cp').text(data)
+                }
+			}
+		});
+        //总用户
+          $.ajax({
+			url: "/sengo/xhj/total_users",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data){
+                    $('#user').text(data)
+                }
+			}
+		});
+
+          //总留言
+          $.ajax({
+			url: "/sengo/xhj/total_message",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data){
+                    $('#msg').text(data)
+                }
+			}
+		});
+    }
+    set_data()
+</script>
+</html>

@@ -1,0 +1,86 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>删除书籍</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+</head>
+<body>
+    <blockquote class="layui-elem-quote">
+        <span style="color: Red;">提示：</span>书的ID看URL</blockquote>
+    <input name="depth" type="hidden" value="" />
+    <input name="parentType" type="hidden" value="" />
+    <input name="leix" value="" type="hidden" />
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">
+                书ID</label>
+            <div class="layui-input-inline">
+                <input type="text" id="bk_id" lay-verify="required" class="layui-input" value="">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn"  onclick="del_bk()">
+                删除此书</button>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">
+                章节ID</label>
+            <div class="layui-input-inline">
+                <input type="text" id="cp_id" lay-verify="required" class="layui-input" value="">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn"  onclick="del_cp()" >
+                删除此章txt文件</button>
+        </div>
+    </div>
+</body>
+<script>
+    function del_bk() {
+        var bk_id = $.trim($('#bk_id').val().toString());
+        $.ajax({
+			url: "/sengo/xhj/del_bk",
+			type: "post",
+			data: {
+				"bk_id": bk_id
+			},
+			success: function(data) {
+                if(data['code'] == 200){
+                    tip("设置成功", 1)
+                }else {
+                    tip("设置失败", 2)
+                }
+			}
+		});
+    }
+
+    function del_cp() {
+        var bk_id = $.trim($('#bk_id').val().toString());
+        var cp_id = $.trim($('#cp_id').val().toString());
+        $.ajax({
+			url: "/sengo/xhj/del_cp",
+			type: "post",
+			data: {
+				"bk_id": bk_id,
+                "cp_id": cp_id
+			},
+			success: function(data) {
+                if(data['code'] == 200){
+                    alert('成功')
+                }else {
+                    alert('失败')
+                }
+			}
+		});
+    }
+</script>
+</html>

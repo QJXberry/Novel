@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" Content="text/html; Charset=gbk">
+    <title>{{tp_name}}_小黄鸡小说网</title>
+    <meta name="keywords" content="{{tp_name}}小说, 小黄鸡小说网"/>
+    <meta name="description" content="小黄鸡小说网, 最好看的小说阅读网，无弹窗，提供玄幻小说、仙侠小说、都市小说、科幻小说、二次元小说"/>
+    <link rel="shortcut icon" href="../../static/base/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../static/bk_pc/css/main.css"/>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/common.js" charset="gbk"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/baidu.js" charset="gbk"></script>
+</head>
+<body>
+<!-- 以下header 可替换 -->
+{% include 'header.html' %}
+<!-- header 结束 -->
+
+<!-- 以下div.nav 可替换 -->
+{% include 'nav.html' %}
+<!-- div.nav 结束 -->
+<script>
+    $("#{{nav}}").prop("class", "active");
+</script>
+<div class="main">
+    <div class="wrap">
+        <div class="crumbs">
+            当前位置：<a href="/">小黄鸡小说网</a><span>&nbsp;&gt;&nbsp;</span><span>{{tp_name}}</span>
+        </div>
+        <div class="list-box add-border">
+            <div class="details">
+                <table class="novel-table">
+                    <thead>
+                    <tr>
+                        <th>类别</th>
+                        <th>小说书名/最新章节</th>
+                        <th>总字数</th>
+                        <th>章节数</th>
+                        <th>作者</th>
+                        <th>更新时间</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for bk in bk_list %}
+                    <tr>
+                        <td><p class="p-class">{{bk.get('tp_name')}}</p></td>
+                        <td class="align-left"><p class="p-name"><a href="/{{bk.get('bk_id')}}" target="_blank" class="a-bk_name" >{{bk.get('bk_name')}}</a><a href="/{{bk.get('bk_id')}}/{{bk.get('bk_last_chap_id')}}" target="_blank"> {{bk.get('bk_last_chap_name')}}</a> </p></td>
+                        <td><p class="p-word">{{bk.get('bk_length')}}万字</p></td>
+                        <td><p class="p-chapter">{{bk.get('bk_last_chap_id')}}章</p></td>
+                        <td><p class="p-author">{{bk.get('bk_author')}}</p></td>
+                        <td><p class="p-time">{{bk.get('bk_lastdate')}}</p></td>
+                        {% if bk.get('bk_status') == '连载' %}
+                        <td><p class="p-status go-on">{{bk.get('bk_status')}}</p></td>
+                        {% else %}
+                        <td><p class="p-status end">{{bk.get('bk_status')}}</p></td>
+                        {% end %}
+
+                    </tr>
+                    {% end %}
+                    </tbody>
+                </table>
+                <div class="page">
+                    <a href="/class/{{tp_id}}/1"><span>首页</span></a>
+                    <a href="/class/{{tp_id}}/{{pre_id}}"><span>上一页</span></a>
+                    <a href="/class/{{tp_id}}/{{next_id}}"><span>下一页</span></a>
+                    <a href="/class/{{tp_id}}/{{total_page}}"><span>尾页</span></a>
+                    共<span>({{page_index}}/{{total_page}})</span>页 转到
+                    <input name="toPage" id="toPage" value="{{page_index}}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">页
+                    <a onclick="jump_page()"><span>跳转</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--右侧浮动导航 可共用-->
+{% include 'float.html' %}
+<!--右侧浮动导航 结束-->
+
+{% include 'footer.html' %}
+
+</body>
+
+
+<script>
+    function jump_page() {
+        var page = $('#toPage').val();
+        if(page.length != 0){
+            window.location ='/class/{{tp_id}}/' + page.toString()
+        }
+    }
+
+</script>
+</html>

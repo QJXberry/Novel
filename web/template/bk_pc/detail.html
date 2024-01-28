@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" Content="text/html; Charset=gbk">
+    <title>{{bk_name}}_{{chap.get('cp_name')}}（{{chap.get('cp_words')}}字）_{{tp_name}}-小黄鸡小说网</title>
+    <meta name="keywords" content="{{bk_name}},{{chap.get('cp_name')}},小黄鸡小说网"/>
+    <meta name="description" content="小黄鸡小说网-每天更新{{bk_name}}最新章节，页面无广告无弹窗"/>
+    <link rel="shortcut icon" href="../../static/base/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../static/bk_pc/css/main.css"/>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/common.js" charset="gbk"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/baidu.js" charset="gbk"></script>
+</head>
+<body>
+<!-- 以下header 可替换 -->
+ {% include 'header.html' %}
+<!-- header 结束 -->
+
+<!-- 以下div.nav 可替换 -->
+ {% include 'nav.html' %}
+<!-- div.nav 结束 -->
+
+<div class="main">
+    <div class="wrap">
+        <div class="crumbs">
+            当前位置：<a href="/">小黄鸡小说网</a><span>&nbsp;&gt;&nbsp;</span><a href="/class/{{tp_id}}/1">{{tp_name}}</a><span>&nbsp;&gt;&nbsp;</span><a href="/{{bk_id}}">{{bk_name}}</a></a>
+        </div>
+        <div class="list-box article">
+             <div class="read-set">
+                 <div class="read-bg">
+                     <span class="set-type">阅读背景：</span>
+                     <a href="#" class="bg color0" onclick="setBgColor('#fff');" title="白色"></a>
+                     <a href="#" class="bg color1" onclick="setBgColor('#e7f4fe');" title="碧云"></a>
+                     <a href="#" class="bg color2" onclick="setBgColor('#fbf7f1');" title="灰色"></a>
+                     <a href="#" class="bg color3" onclick="setBgColor('#f0f0f0');" title="冷灰"></a>
+                     <a href="#" class="bg color4" onclick="setBgColor('#ffe7e7');" title="粉红"></a>
+                     <span  class="set-type">字体风格：</span>
+                     <a href="#" class="font font-ya" onclick="setFont('Microsoft Yahei');" title="微软雅黑">雅黑</a>
+                     <a href="#" class="font font-song" onclick="setFont('simsun');" title="宋体">宋体</a>
+                     <a href="#" class="font font-kai" onclick="setFont('楷体');" title="楷体">楷体</a>
+                     <a href="#" class="font font-hei" onclick="setFont('黑体');" title="黑体">黑体</a>
+                     <span  class="set-type">字体大小：</span>
+                     <a  href="#" class="size" onclick="setFontSize('14px')">很小</a>
+                     <a  href="#" class="size" onclick="setFontSize('16px')">较小</a>
+                     <a  href="#" class="size" onclick="setFontSize('18px')">中等</a>
+                     <a  href="#" class="size" onclick="setFontSize('22px')">较大</a>
+                     <a  href="#" class="size" onclick="setFontSize('26px')" >很大</a>
+                 </div>
+             </div>
+            <div id="article-detail" class="article-detail" >
+                <h1>{{chap.get('cp_name')}} （{{chap.get('cp_words')}}字）</h1>
+                <div class="btn-bar">
+                    <a href="/{{bk_id}}/{{pre_id}}" class="btn">上一章</a><a href="/{{bk_id}}" class="btn">回目录</a>
+                    {% if cp_id == next_id %}
+                    <a href="#" class="btn">下蛋中</a>
+                    {% else %}
+                    <a href="/{{bk_id}}/{{next_id}}" class="btn">下一章</a>
+                    {% end %}
+                </div>
+                <div  id="article-txt">
+                    {% raw cp_cont %}
+                </div>
+                <div class="btn-bar bottom">
+                   <a href="/{{bk_id}}/{{pre_id}}" class="btn">上一章</a><a href="/{{bk_id}}" class="btn">回目录</a>
+                    {% if cp_id == next_id %}
+                    <a href="#" class="btn">下蛋中</a>
+                    {% else %}
+                    <a href="/{{bk_id}}/{{next_id}}" class="btn">下一章</a>
+                    {% end %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--右侧浮动导航 可共用-->
+ {% include 'float.html' %}
+<!--右侧浮动导航 结束-->
+
+<!-- 以下div.footer 可替换 -->
+{% include 'footer.html' %}
+<!-- div.footer 结束 -->
+
+</body>
+
+
+<script>
+    $(function(){
+        setReadStyle();
+//        获取背景，字体，字号,并设置
+    });
+
+    function setReadStyle(){
+        var bg=getCookie("xhjbg"),f=getCookie("xhjfont");s=getCookie("xhjsize");
+        $("#article-txt").css({"font-family":f,"font-size":s});
+        $("#article-detail").css('background-color',bg);
+
+    }
+    function setBgColor(color){
+        $("#article-detail").css('background-color',color);
+        addCookie("xhjbg",color);
+    }
+
+    function setFont(font){
+        $("#article-txt").css('font-family',font);
+        addCookie("xhjfont",font);
+    }
+
+    function setFontSize(size){
+        $("#article-txt").css('font-size',size);
+        addCookie("xhjsize",size);
+    }
+
+{% if randint == 1 %}
+    addbookcase("{{bk_id}}", "{{cp_id}}", "{{chap.get('cp_name')}}")
+{% end %}
+</script>
+</html>

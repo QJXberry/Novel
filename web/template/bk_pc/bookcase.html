@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" Content="text/html; Charset=gbk">
+    <title>书架-小黄鸡小说网</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <link rel="shortcut icon" href="../../static/base/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../static/bk_pc/css/main.css"/>
+    <link rel="stylesheet" href="../../static/bk_pc/css/alertPopShow.css"/>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/alertPopShow.js" charset="gbk"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/common.js" charset="gbk"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/baidu.js" charset="gbk"></script>
+</head>
+<body>
+<!-- 以下header 可替换 -->
+{% include 'header.html' %}
+<!-- header 结束 -->
+
+<!-- 以下div.nav 可替换 -->
+{% include 'nav.html' %}
+<!-- div.nav 结束 -->
+<div class="main">
+    <div class="wrap">
+        <div class="list-box bookcase">
+            <div class="title clearfix">
+                <h1>我的书架</h1>
+                <div class="bookcase-explain">您的书架可以收藏<span>{{bk_limit}}</span>本，已收藏<span>{{bk_num}}</span>本，书签自动跟踪</div>
+            </div>
+
+             <table class="bookcase-table" id="bookcase">
+                    <thead>
+                         <tr>
+                             <th width="50" class="align-center">No.</th>
+                             <th>作品名称</th>
+                             <th>最新章节</th>
+                             <th>作者</th>
+                             <th>更新时间</th>
+                             <th>书签</th>
+                             <th>状态</th>
+                             <th>操作</th>
+                         </tr>
+                    </thead>
+
+                    <tbody>
+                         {% set i = 1%}
+                         {% for bk in bk_list %}
+                         <tr>
+                             <td  class="align-center">{{i}}.</td>
+                             {%set i += 1 %}
+                             <td><p class="s-name"><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a></p></td>
+                             <td><p class="s-chapter"><a href="/{{bk.get('bk_id')}}/{{bk.get('bk_last_chap_id')}}">{{bk.get('bk_last_chap_name')}}</a></p></td>
+                             <td><p class="s-author">{{bk.get('bk_author')}}</p></td>
+                             <td><p class="s-time">{{bk.get('bk_lastdate')}}</p></td>
+                             <td><p class="s-chapter"><a href="/{{bk.get('bk_id')}}/{{bk.get('cp_id')}}"></a>{{bk.get('cp_name')}}</p></td>
+                             {% if bk.get('bk_status') == 0 %}
+                             <td><p class="p-status go-on">连载</p></td>
+                             {% else %}
+                             <td><p class="p-status end">全本</p></td>
+                             {% end %}
+                             <td><p class="s-option"><a href="javascript:remove_bk({{bk.get('bk_id')}});" class="remove-btn">移除</a></p></td>
+                         </tr>
+                         {% end %}
+                    </tbody>
+                </table>
+
+        </div>
+    </div>
+</div>
+
+
+<!--右侧浮动导航 可共用-->
+{% include 'float.html' %}
+<!--右侧浮动导航 结束-->
+
+{% include 'footer.html' %}
+</body>
+
+
+</html>

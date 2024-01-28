@@ -1,0 +1,25 @@
+PyCrypto
+wheezy.captcha
+Image
+/usr/local/lib/python2.7/dist-packages/tornado
+
+
+DBUtils
+MySQL-python
+futures
+gevent
+pycrypto
+pycurl
+pymysql
+requests
+tornado
+zerorpc
+redis
+urllib3
+selenium
+beautifulsoup4
+lxml==4.1.0
+selenium
+
+apt-get install python-dev libmysqlclient-dev
+pycurl: sudo apt-get install libcurl4-gnutls-dev librtmp-dev

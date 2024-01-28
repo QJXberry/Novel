@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,initial-scale=1">
+    <title>登录-小黄鸡小说站</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <link rel="stylesheet" href="../../static/bk_mobile/css/style.css" />
+    <link rel="stylesheet" href="../../static/base/css/base.css"/>
+    <script src="../../static/bk_mobile/js/bc_web.js" charset="gbk"></script>
+    <script src="../../static/bk_mobile/js/baidu.js" charset="gbk"></script>
+</head>
+<body style="background-color: #fefd99;">
+<header class="top c_big" id="top">
+        <div class="span2">
+            <div class="index-login" style="text-align: left">
+                <a class="header-link "  href="{{referer}}" >返回</a>
+            </div>
+        </div>
+        <div class="span8 chapter-title">登录</div>
+        <div class="span2">
+            <div class="index-login">
+                <a class="header-link c_float_right" href="index.html" >首页</a>
+            </div>
+        </div>
+</header>
+<div class="login-box">
+    <div class="xj-panel" id="xj-panel">
+    <span class="xj">
+        <img src="../../static/base/images/xj3.gif"/>
+    </span>
+        <p>www.xhjbook.com</p>
+    </div>
+    <div class="form-panel" >
+        <form id="frmregister" name="frmregister" method="post"  action="/m/login">
+            <div class="grid">
+                <div class="even">
+                    <input id="user_name" type="text" name="user_name"/><img src="../../static/base/images/user.png"/>
+                </div>
+                <div class="even">
+                    <input id="password" type="password" name="password"/>
+                    <img src="../../static/base/images/Password.png"/>
+
+                </div>
+                <div class="even even_a">
+                    <a class="c_color"  href="register.html">注册新用户</a>
+                </div>
+                <div class="even">
+                    <input type="button" class="register-btn" value="登录" onclick="login()" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+<div class="contact-tip" id="contact-tip">
+    <p>用户名或密码不能为空</p>
+</div>
+<!-- 以下footer替换 -->
+{% include 'footer.html' %}
+<!-- footer结束 -->
+</body>
+<script type="text/javascript">
+    function login() {
+        var user_name = document.getElementById("user_name").value.replace(/(^\s*)|(\s*$)/g,"").toString();
+        var password = document.getElementById("password").value.replace(/(^\s*)|(\s*$)/g,"").toString();
+        if (user_name == "" || password == ""){
+            tip("用户名或密码不能为空");
+        }else {
+            ajax({
+                type:"POST",
+                url:"/login",//接口路径
+                dataType:"json",//数据类型
+                data:{
+                    "user_name":user_name,
+                    "password":password
+                },
+                success:function(msg){
+                    //提交成功后执行
+                    tip(msg["msg"]);
+                    if(msg["code"] == 200 ) {
+                        setTimeout("window.location.href='/'", 1000);
+                    }
+                },
+                error:function(){
+                    //提价失败后执行
+                    tip("提交失败");//提示提交失败
+                }
+            })
+        }
+    }
+</script>
+</html>

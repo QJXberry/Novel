@@ -1,0 +1,60 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>类型管理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+</head>
+<body>
+    <blockquote class="layui-elem-quote">
+        <span style="color: Red;">提示：</span>会替换原来的封面</blockquote>
+    <input name="depth" type="hidden" value="" />
+    <input name="parentType" type="hidden" value="" />
+    <input name="leix" value="" type="hidden" />
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">
+                书ID</label>
+            <div class="layui-input-inline">
+                <input type="text" lay-verify="required" class="layui-input" value="" id="bk_id">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <input type="file" value="选择文件" name="file" id="file"/>
+            <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="change_pic()">
+                上传</button>
+        </div>
+    </div>
+</body>
+<script>
+    function change_pic() {
+        var bk_id = $('#bk_id').val();
+        var file = $('#file')[0].files[0];
+        var form = new FormData();
+        form.append("file", file);
+        form.append("bk_id", bk_id);
+        $.ajax({
+			url: "/sengo/xhj/change_pic",
+            mimeType: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+			type: "post",
+			data: form,
+			success: function(data) {
+                 data =  eval('('+data+')');
+                if(data['code'] == 200 ){
+                    alert("设置成功")
+                }else {
+                    alert("设置失败")
+                }
+			}
+		});
+    }
+</script>
+
+</html>

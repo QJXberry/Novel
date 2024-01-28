@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,initial-scale=1">
+    <title>{{bk_name}}_{{chap.get('cp_name')}}（{{chap.get('cp_words')}}字）-小黄鸡小说手机站</title>
+    <meta name="keywords" content="{{bk_name}},{{chap.get('cp_name')}},小黄鸡小说手机站"/>
+    <meta name="description" content="{{bk_name}}最新章节，{{chap.get('cp_name')}}，无广告无弹窗，页面提供阅读进度"/>
+    <link rel="stylesheet" href="../../static/bk_mobile/css/style.css" />
+    <link rel="stylesheet" href="../../static/base/css/base.css"/>
+    <script src="../../static/bk_mobile/js/bc_web.js" charset="gbk"></script>
+    <script src="../../static/bk_mobile/js/baidu.js" charset="gbk"></script>
+</head>
+<body id="BookBody">
+<header class="top c_big" id="top">
+    <div class="span2">
+        <div class="index-login" style="text-align: left">
+            <a class="header-link "  href="{{referer}}" >返回</a>
+        </div>
+    </div>
+    <div class="span8 chapter-title">{{bk_name}}</div>
+    <div class="span2">
+        <div class="index-login">
+            <a class="header-link c_float_right" href="/" >首页</a>
+        </div>
+    </div>
+</header>
+   <div class="chapter-panel">
+       <div class="nr_set " id="nr_set">
+           <div class="set2 c_display">
+               <div class="c_float_left">字体：</div>
+               <div id="fontbig" class="c_float_left" onclick="nr_setbg('big')">大</div>
+               <div id="fontmiddle" class="c_float_left" onclick="nr_setbg('middle')">中</div>
+               <div id="fontsmall" class="c_float_left" onclick="nr_setbg('small')">小</div>
+               <div id="huyandiv" class="c_float_right" onclick="nr_setbg('huyan')">护眼</div>
+               <div id="lightdiv" class="c_float_right" onclick="nr_setbg('light')">关灯</div>
+           </div>
+       </div>
+       <div class="nr_title" id="nr_title">
+           {{chap.get('cp_name')}} （{{chap.get('cp_words')}}字）
+       </div>
+       <div class="nr_page c_display" id="nr_page1">
+           <div class="span4">
+               <a class="pb_prev c_a" href="/{{bk_id}}/{{pre_id}}">上一章</a>
+           </div>
+           <div class="span4">
+               <a class="pb_mulu c_a" href="/{{bk_id}}">目录</a>
+           </div>
+           <div class="span4">
+               {% if cp_id == next_id %}
+               <a class="pb_next c_a" href="#">下蛋中</a>
+               {% else %}
+               <a class="pb_next c_a" href="/{{bk_id}}/{{next_id}}">下一章</a>
+               {% end %}
+           </div>
+       </div>
+       <div class="url-tip">
+           [小黄鸡域名:m.xhjbook.com]
+       </div>
+       <div class="text"  id="text">
+           {% raw time_tip %}
+           {% raw cp_cont %}
+           [小鸡提醒：加入书架后自动跟踪阅读进度！]
+       </div>
+       <div class="wrong-tip">
+           <div class="process">
+               <div class="process-bar" style="width: {{process}}%"><span>已读{{process}}%</span></div>
+           </div>
+          <!--<a href="#">[章节出错，点此举报]</a>-->
+       </div>
+       <div class="nr_page c_display" id="nr_page2">
+           <div class="span4">
+               <a class="pb_prev c_a" href="/{{bk_id}}/{{pre_id}}">上一章</a>
+           </div>
+           <div class="span4">
+               <a class="pb_mulu c_a" href="/{{bk_id}}">目录</a>
+           </div>
+           <div class="span4">
+               {% if cp_id == next_id %}
+               <a class="pb_next c_a" href="#">下蛋中</a>
+               {% else %}
+               <a class="pb_next c_a" href="/{{bk_id}}/{{next_id}}">下一章</a>
+               {% end %}
+           </div>
+       </div>
+   </div>
+       <!-- 以下footer替换 -->
+       {% include 'footer.html' %}
+       <!-- footer结束 -->
+
+
+</body>
+<script>
+    window.onload=function(){
+        getset();
+        {% if randint %}
+        var bk_id = "{{bk_id}}";
+        var cp_id = "{{cp_id}}";
+        var cp_name = "{{chap.get('cp_name')}}";
+        addbookcase(bk_id, cp_id, cp_name)
+        {% end %}
+    };
+
+
+    function addbookcase(bk_id, cp_id, cp_name) {
+        ajax({
+            type:"POST",
+            url:"/add",
+            dataType:"json",//数据类型
+            data:{
+                "bk_id":bk_id,
+                "cp_id":cp_id,
+                "cp_name":cp_name
+            }
+        })
+    }
+ 
+</script>
+</html>

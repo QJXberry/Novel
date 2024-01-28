@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>{{book.get('bk_name')}}无弹窗_{{book.get('bk_author')}}_{{book.get('bk_name')}}最新章节_小黄鸡小说手机站</title>
+    <meta name="keywords" content="{{book.get('bk_name')}}, {{book.get('bk_author')}}, {{book.get('bk_name')}}最新章节, 无弹窗"/>
+    <meta name="description" content="作者{{book.get('bk_author')}}的作品{{book.get('bk_name')}}已更新{{book.get('bk_length')}}万字，阅读自动加书签，显示阅读进度"/>
+    <link rel="stylesheet" href="../../static/bk_mobile/css/style.css" />
+    <link rel="stylesheet" href="../../static/base/css/base.css"/>
+    <script src="../../static/bk_mobile/js/baidu.js" charset="gbk"></script>
+</head>
+<body>
+    <header class="top c_big" id="top">
+            <div class="index-login">
+                <a class="header-link  c_float_left" href="/" >首页</a>
+                <a class="header-link c_float_right" href="/bookcase" >书架</a>
+            </div>
+    </header>
+    <div class="rowFluid">
+        <div class="cover">
+            <div class="book-panel">
+                <div class="block">
+                    <div class="block_img2">
+                        <img src="/pic/{{book.get('bk_id')}}.jpg" onerror="this.src='/pic/0.jpg'"/>
+                    </div>
+                    <div class="block_txt2">
+                        <h2>{{book.get('bk_name')}}({{book.get('bk_read_num')}}人在读)</h2>
+                        <p>作者:&nbsp;&nbsp;<a href="/search?name={{book.get('bk_author')}}&page=1" class="a_link">{{book.get('bk_author')}}</a> </p>
+                        <p>类别:&nbsp;&nbsp;<a class="a_link">{{book.get('tp_name')}}</a></p>
+                        <p>状态:&nbsp;&nbsp;<span>{{book.get('bk_status')}}</span></p>
+                        <p>更新:&nbsp;&nbsp;<span>{{book.get('bk_lastdate')}}</span></p>
+                        <p>字数:&nbsp;&nbsp;<span>{{book.get('bk_length')}}万字</span></p>
+                    </div>
+
+                </div>
+                <div class="ablum_read">
+
+                    <div class="span4">
+                <span class="margin_right">
+                      <a href="javascript:void(0)"  onclick="addbookcase({{book.get('bk_id')}}, '', '')">加入书架</a>
+                </span>
+                    </div>
+                    <div class="span4">
+                <span class="margin_right read-now-btn">
+                      <a href="/{{book.get('bk_id')}}/1">立即阅读</a>
+                </span>
+                    </div>
+                    <div class="span4">
+                <span class="margin_right">
+                      <a id="go_down" href="#go_top">直达底部</a>
+                </span>
+                    </div>
+                </div>
+                <div class="intro">
+                    <span>小说简介</span><img class="c_float_right" src="../../static/base/images/xhj.png">
+                </div>
+                <div class="intro_info"  >
+                    {{book.get('bk_abstract')}}
+                </div>
+                <div class="intro">
+                    <span>章节预览</span><a id="sort" class="c_float_right" onclick="change()" >↓ 正序</a>
+                </div>
+                <div class="chapter">
+                    <ul id="list">
+                        {% for chap in chaps %}
+                        <li><a href="/{{book.get('bk_id')}}/{{chap.get('cp_id')}}">{{chap.get('cp_name')}}</a></li>
+                        {% end %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 加入书架 弹出-->
+            <div class="contact-tip" id="contact-tip">
+                <p></p>
+            </div>
+            <!-- 以下footer替换 -->
+            {% include 'footer.html' %}
+            <!-- footer结束 -->
+        </div>
+    </div>
+    <script src="../../static/bk_mobile/js/bc_web.js" charset="gbk"></script>
+</body>
+<script type="text/javascript">
+    function change() {
+        var s_text = document.getElementById("sort").innerText;
+        if(s_text == "↓ 正序"){
+            document.getElementById("sort").innerText = "↑ 倒序";
+        }else{
+            document.getElementById("sort").innerText ="↓ 正序";
+        }
+        var sort = document.querySelectorAll("#list>li");
+        for(var i=sort.length-1;i>-1;i--){
+            document.querySelector("#list").appendChild(sort[i]);
+        }
+    }
+
+    function addbookcase() {
+        tip("阅读自动添加书签，无需手动添加！");
+    }
+</script>
+
+</html>

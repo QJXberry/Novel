@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" Content="text/html; Charset=gbk">
+    <title>登录-小黄鸡小说网</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <link rel="shortcut icon" href="../../static/base/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../static/bk_pc/css/main.css"/>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/common.js" charset="gbk"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/baidu.js" charset="gbk"></script>
+</head>
+<body>
+<!-- 以下header 可替换 -->
+{% include 'header.html' %}
+<!-- header 结束 -->
+
+<!-- 以下div.nav 可替换 -->
+{% include 'nav.html' %}
+<!-- div.nav 结束 -->
+<div class="main">
+    <div class="wrap class register">
+        <div class="inner">
+            <div class="title">登录</div>
+            <div class="details">
+                    <p>
+                        <label>用户名<input type="text" id="username" placeholder="请输入用户名"/></label>
+                    </p>
+                    <p>
+                        <label>密码<input type="password" id="password" placeholder="请输入密码"/></label>
+                    </p>
+                    <p>
+                        <input type="button" value="登录" class="submit-btn" onclick="login()"/>
+                    </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--右侧浮动导航 可共用-->
+<div class="float-nav">
+    <ul>
+        <li class="to-top"><a href="#header"></a></li>
+        <li class="contact" title="联系小鸡"><a href="contact.html"></a></li>
+        <li class="to-bottom"><a href="#footer"></a></li>
+    </ul>
+</div>
+<!--右侧浮动导航 结束-->
+
+<!-- 以下div.footer 可替换 -->
+{% include 'footer.html' %}
+<!-- div.footer 结束 -->
+</body>
+<link rel="stylesheet" href="../../static/bk_pc/css/alertPopShow.css"/>
+<script type="text/javascript" src="../../static/bk_pc/js/alertPopShow.js" charset="gbk"></script>
+
+<script>
+
+    function verify_blank(user_name, password) {
+        if(user_name.length == 0 || password.length == 0){
+            webToast("账号或密码不能为空", "middle");
+            return false
+        }
+        return true
+    }
+
+    function login() {
+        var user_name = $.trim($('#username').val().toString());
+        var password = $.trim($('#password').val().toString());
+        var result = verify_blank(user_name, password);
+        if(result == false){
+            return false
+        }
+        $.ajax({
+			url: "/login",
+			type: "post",
+			data: {
+			    "user_name": user_name,
+                "password": password
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    window.location.href = '/'
+                }else{
+                    webToast(data['msg'])
+                }
+			}
+		});
+    }
+</script>
+
+</html>

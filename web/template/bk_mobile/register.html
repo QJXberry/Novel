@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>注册-小黄鸡小说手机站</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <link rel="stylesheet" href="../../static/bk_mobile/css/style.css" />
+    <link rel="stylesheet" href="../../static/base/css/base.css"/>
+    <script src="../../static/bk_mobile/js/bc_web.js"></script>
+    <script src="../../static/bk_mobile/js/baidu.js" charset="gbk"></script>
+</head>
+<body style="background-color: #fefd99;">
+<header class="top c_big" id="head">
+    <div class="span2">
+        <div class="index-login" style="text-align: left">
+            <a class="header-link "  href="{{referer}}" >返回</a>
+        </div>
+    </div>
+    <div class="span8 chapter-title">注册</div>
+    <div class="span2">
+        <div class="index-login">
+            <a class="header-link c_float_right" href="index.html" >首页</a>
+        </div>
+    </div>
+</header>
+<div class="register-box">
+    <div class="xj-panel" id="xj-panel">
+    <span class="xj">
+        <img src="../../static/base/images/xj3.gif"/>
+    </span>
+        <p>www.xhjbook.com</p>
+    </div>
+    <div class="form-panel">
+        <form id="frmregister" name="frmregister" method="post"  action="/m/register">
+            <div class="grid">
+                <div class="even">
+                    <input id="user_name" name="user_name" type="text" placeholder="用户名不得超过6个字"/><img src="../../static/base/images/user.png"/>
+                </div>
+                <div class="even">
+                    <input id="password" name="password" type="password"/><img src="../../static/base/images/Password.png"/>
+                </div>
+                <div class="even">
+                    <input id="re-password" type="password"/><img src="../../static/base/images/Password.png"/>
+                </div>
+                <div class="even">
+                    <input id="captcha" name="captcha" type="text"/>
+                    <img id="mobile" src="../../static/base/images/code.png"/>
+                    <img id="protected-img" src="/captcha" onclick="this.src='/captcha?tm='+Math.random()">
+                </div>
+                <div class="even even_a">
+                    <a class="c_color"  href="login.html">已有账户，点击登录</a>
+                </div>
+                <div class="even">
+                    <input type="button" class="register-btn" value="注册" onclick="register()" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="contact-tip" id="contact-tip">
+    <p>不许为空</p>
+</div>
+<!-- 以下footer替换 -->
+{% include 'footer.html' %}
+<!-- footer结束 -->
+</body>
+<script type="text/javascript">
+    function register() {
+        var user_name = document.getElementById("user_name").value.replace(/(^\s*)|(\s*$)/g,"").toString();
+        var password = document.getElementById("password").value.replace(/(^\s*)|(\s*$)/g,"").toString();
+        var re_password = document.getElementById("re-password").value.replace(/(^\s*)|(\s*$)/g,"").toString();
+        var captcha = document.getElementById("captcha").value.replace(/(^\s*)|(\s*$)/g,"").toString();
+
+        if (user_name == "" || password ==""){
+            tip("用户名或密码不能为空！");
+        }else if(captcha == ""){
+            tip("请输入验证码！")
+        }
+        else if(password != re_password){
+            tip("重复输入密码不一致！");
+        }else{
+            ajax({
+                type:"POST",
+                url:"/register",
+                dataType:"json",
+                data:{
+                    "user_name":user_name,
+                    "password":password,
+                    "captcha":captcha
+                },
+                success:function(msg){
+                    if(msg["ret"] !=0){
+                        tip(msg["msg"]);
+                    }else {
+                        tip(msg["msg"]);
+                        setTimeout("window.location.href='/login'",1000);
+                    }
+
+                },
+                error:function(){
+                    tip("注册失败！");
+                }
+            })
+        }
+    }
+</script>
+</html>

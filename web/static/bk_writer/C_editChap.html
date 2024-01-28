@@ -1,0 +1,132 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../bk_admin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="../bk_admin/css/myCss.css">
+<script src="../bk_admin/layui/layui.js" charset="utf-8"></script>
+<script src="../bk_admin/js/jquery-1.12.4.js" type="text/javascript"></script>
+<script type="text/javascript">
+    index = '';
+    layui.use(['layedit'], function () {
+        var form = layui.form(), layedit = layui.layedit;
+        form.render();
+        index = layedit.build('content', {
+            height: 1000, //设置编辑器高度
+            tool: []
+        });
+    });
+
+    function get_content() {
+        var content;
+        layui.use(['layedit'], function () {
+            var layedit = layui.layedit;
+            content = layedit.getContent(index);
+        });
+        return content
+    }
+</script>
+</head>
+<body>
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            书名</label>
+        <div>
+            <select id="bk_name" class="layui-select">
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+            <label class="layui-form-label">
+                章节ID</label>
+            <div class="layui-input-block">
+                <input type="text" id="cp_id" value="" lay-verify='required'
+                    placeholder="请输入章节ID" class="layui-input">
+            </div>
+    </div>
+      <div class="layui-form-item">
+            <label class="layui-form-label">
+                新章节名</label>
+            <div class="layui-input-block">
+                <input type="text" id="cp_name" value="" lay-verify='required'
+                    placeholder="请输入章节名" class="layui-input">
+            </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            章节内容</label>
+        <div class="layui-input-block">
+            <textarea name="txtG_instructions" id="content" style="width: 850px; height: 420px;"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn"  type="button" onclick="add_cp()">
+                修改章节</button>
+        </div>
+    </div>
+</body>
+<script src="../bk_admin/js/common.js" charset="utf-8"></script>
+<script>
+    function get_mybook() {
+        $.ajax({
+			url: "/my_bk",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    $.each(data['data'], function (index, value) {
+                        var bk_id = value['bk_id'];
+                        var bk_name = value['bk_name'];
+                        $("#bk_name").append("<option value='" + bk_id + "'>" + bk_name + "</option>")
+                    })
+                }
+			}
+		});
+    }
+    get_mybook();
+
+
+    function verify_blank(bk_name, tp_id, bk_abstract, cp_name) {
+        if(bk_name.length == 0 || tp_id.length == 0 || bk_abstract.length == 0 || cp_name.length == 0){
+            tip("请填写完整", 2)
+        }
+        return true
+    }
+
+    function add_cp() {
+        var bk_id =$("#bk_name").val();
+        var cp_ip = $.trim($('#cp_id').val().toString());
+        var cp_name = $.trim($('#cp_name').val().toString());
+        var cp_content = get_content();
+        cp_content = $.trim(cp_content);
+        var result = verify_blank(bk_id, cp_ip, cp_content, cp_name);
+        if(result == false){
+            return false
+        }
+        $.ajax({
+			url: "/update_chap",
+			type: "post",
+			data: {
+			    "bk_id": bk_id,
+                "cp_id": cp_ip,
+                "cp_name": cp_name,
+                "cp_content": cp_content
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    tip("提交成功", 1)
+                }else{
+                    tip("提交失败", 2)
+                }
+			}
+		});
+    }
+
+</script>
+</html>

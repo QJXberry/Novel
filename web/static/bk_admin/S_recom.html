@@ -1,0 +1,138 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>小鸡推荐</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="js/dataTables.js" type="text/javascript"></script>
+</head>
+<body>
+    <input name="depth" type="hidden" value="" />
+    <input name="parentType" type="hidden" value="" />
+    <input name="leix" value="" type="hidden" />
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">
+                书名</label>
+            <div class="layui-input-inline">
+                <input type="text"  lay-verify="required" class="layui-input" value="" id="bk_name">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="set_recom()">
+                设为推荐</button>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="get_recom_list()">
+                刷新表格</button>
+        </div>
+    </div>
+    <table class="layui-table" id="datatable">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    书名
+                </th>
+                <th>
+                    优先级
+                </th>
+                <th>
+                    操作
+                </th>
+            </tr>
+        </thead>
+    </table>
+</body>
+<script>
+    $(document).ready(function(){
+        get_recom_list()
+    });
+
+    function get_recom_list() {
+        $.ajax({
+			url: "/sengo/xhj/recom_list",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    load_data(data['data'])
+                }
+			}
+		});
+    }
+
+    function load_data(data) {
+        destroy_datatable();
+        $('#datatable').DataTable({
+			"data": data,
+			"paging": false,
+			"bRetrieve": true,
+			"autoWidth": true,
+			"info": false,
+			"searching": false,
+			"columns": [
+                { "data": "bk_id" },
+                { "data": "bk_name" },
+                { "data": "bk_sort" }
+			],
+            "columnDefs": [{
+				"targets": 3,
+				"data": "bk_id",
+				"render": function(data, t, full) {
+                        return '<a class="layui-btn layui-btn-small layui-btn-danger"  onclick="del_bk_recom('+data+')"><i class="layui-icon">&#xe640;</i> 删除推荐</a>'
+				}
+			}]
+		});
+    }
+
+    function del_bk_recom(bk_id) {
+        $.ajax({
+			url: "/sengo/xhj/del_recom",
+			type: "post",
+			data: {
+			    "bk_id": bk_id
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    alert("删除成功")
+                }else {
+                    alert("删除失败")
+                }
+			}
+		});
+    }
+
+    var destroy_datatable = function() {
+		var table_old = $('#datatable').DataTable();
+		if(table_old != null) {
+			table_old.destroy();
+		}
+	};
+
+    function set_recom() {
+        var bk_name = $('#bk_name').val();
+        $.ajax({
+			url: "/sengo/xhj/set_recom",
+			type: "post",
+			data: {
+			    "bk_name": bk_name
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    alert("设置成功")
+                }else {
+                    alert("设置失败")
+                }
+			}
+		});
+    }
+</script>
+
+</html>

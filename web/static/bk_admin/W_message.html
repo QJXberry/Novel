@@ -1,0 +1,192 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf8" src="js/dataTables.js"></script>
+     <script type="text/javascript">
+        layui.use(['form'], function () {
+            var form = layui.form();
+            form.render();
+            $("#myaddClick").click(function () {
+                $("#add").show();
+                $(".addList").hide();
+            });
+        });
+    </script>
+</head>
+<body>
+    <a class='layui-btn addList'  id="myaddClick"><i class="layui-icon">
+        &#xe61f;</i> 回复留言<!--href="G_links.html?action=tab1"--></a>
+
+    <div style="display:none;" id="add">
+        <blockquote class="layui-elem-quote" >
+            回复用户留言</blockquote>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                用户ID</label>
+            <div class="layui-input-block">
+                <input type="text" id="u_id" value="" lay-verify="required"
+                    placeholder="请输入用户id" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                回复内容</label>
+            <div class="layui-input-block">
+                <input type="text" id="msg_cont" value=""  lay-verify="required"
+                    class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" onclick="reply_msg()" >
+                    发送</button>
+            </div>
+        </div>
+
+    </div>
+
+    <table id="datatable"  class="layui-table" width="100%">
+        <thead>
+            <tr>
+                <th width="50">
+                    用户id
+                </th>
+                <th width="100">
+                    用户名
+                </th>
+                <th width="100">
+                    留言名
+                </th>
+                <th width="100">
+                    联系方式
+                </th>
+                <th>
+                    内容
+                </th>
+                
+                <th width="100">
+                    ip
+                </th>
+                <th width="100">
+                    留言时间
+                </th>
+            </tr>
+        </thead>
+    </table>
+    <button class="layui-btn" onclick="get_msg(1)">
+    首页</button>
+    <button class="layui-btn" onclick="pre_page()">
+        上一页</button>
+    <button class="layui-btn" onclick="next_page()">
+        下一页</button>
+    <button class="layui-btn" onclick="final_page()">
+    尾页</button>
+    (当前第<span class="page-num" id="page_index"></span>页,共<span id="page_total"></span>页)
+</body>
+<script>
+    page_index = 1;
+    total_page = 0;
+
+    $(document).ready(function(){
+        get_msg(1)
+    });
+
+    function pre_page() {
+        var page = page_index - 1;
+        get_msg(page)
+    }
+
+    function next_page() {
+        var page = page_index - 0 + 1;
+        get_msg(page)
+    }
+
+    function final_page() {
+        var page = total_page;
+        get_msg(page)
+    }
+
+    function get_msg(page) {
+        $.ajax({
+			url: "/sengo/xhj/message",
+			type: "post",
+			data: {
+			    "page_index": page
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    var msg_list = data['data']['data'];
+                    page_index = data['data']['page_index'];
+                    total_page = data['data']['total_page'];
+                    load_data(msg_list);
+                    set_total_page()
+                }
+			}
+		});
+    }
+
+    var destroy_datatable = function() {
+		var table_old = $('#datatable').DataTable();
+		if(table_old != null) {
+			table_old.destroy();
+		}
+	};
+
+    function load_data(data) {
+        destroy_datatable();
+        $('#datatable').DataTable({
+			"data": data,
+			"paging": false,
+			"bRetrieve": true,
+			"autoWidth": false,
+			"info": false,
+			"searching": false,
+			"columns": [
+                { "data": "u_id" },
+                { "data": "user_name" },
+                { "data": "msg_name" },
+                { "data": "msg_phone" },
+                { "data": "msg_cont" },
+                { "data": "msg_ip" },
+                { "data": "msg_time" }
+			]
+		});
+    }
+
+    function set_total_page() {
+        $('#page_total').text(total_page);
+        $('#page_index').text(page_index)
+    }
+
+     function reply_msg() {
+        var u_id = $('#u_id').val();
+        var msg_cont = $('#msg_cont').val();
+        $.ajax({
+			url: "/sengo/xhj/reply_msg",
+			type: "post",
+			data: {
+			    "u_id": u_id,
+			    "msg_cont": msg_cont
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    alert("发送成功")
+                }else {
+                    alert("发送失败")
+                }
+			}
+		});
+    }
+
+</script>
+</html>

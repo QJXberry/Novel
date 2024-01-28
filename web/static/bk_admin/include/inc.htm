@@ -1,0 +1,27 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+<link rel="stylesheet" href="css/myCss.css">
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script src="js/jquery-1.12.4.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+    //获取图片真实宽高
+    function getImageWidth(url, callback) {
+        var img = new Image();
+        img.src = url;
+
+        // 如果图片被缓存，则直接返回缓存数据
+        if (img.complete) {
+            callback(img.width, img.height);
+        } else {
+            // 完全加载完毕的事件
+            img.onload = function () {
+                callback(img.width, img.height);
+            }
+        }
+    }
+</script>

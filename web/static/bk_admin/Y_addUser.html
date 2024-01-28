@@ -1,0 +1,99 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>管理员管理</title>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+
+
+ 
+    <script type="text/javascript">
+
+        layui.use(['form'], function () {
+            var form = layui.form();
+            form.render();
+        });
+   
+    </script>
+</head>
+<body>
+
+    <p>
+        <blockquote class="layui-elem-quote">
+            新增一个管理员</blockquote>
+    </p>
+    &nbsp;<a href="javascript:;" class="layui-btn layui-btn-normal">添加用户</a> <a href="Y_UserList.html"
+        class="layui-btn  ">用户列表</a>
+    <hr />
+    <br />
+    <div class="layui-tab-item layui-show">
+
+        <form class="layui-form" >
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                用户名</label>
+            <div class="layui-input-block">
+
+                <input type="text" id="user_name" lay-verify="required"
+                placeholder="请输入用户名" value="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                密码</label>
+            <div class="layui-input-inline">
+                <input type="text" id="password" lay-verify="required" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+
+
+            <label class="layui-form-label">
+                类别</label>
+            <div class="layui-input-block">
+                <input type="radio" name="u_type" value="9" title="管理员"  />
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="u_type" value="1" title="作者"  checked="checked"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="button" onclick="add_user()">
+                    提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">
+                    重置</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</body>
+<script>
+    function add_user() {
+        var u_type = $('input:radio[name="u_type"]:checked').val();
+        var user_name = $('#user_name').val();
+        var password = $('#password').val();
+        $.ajax({
+			url: "/sengo/xhj/add_user",
+			type: "post",
+			data: {
+			    "u_type": u_type,
+                "user_name": user_name,
+                "password": password
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                   alert('添加成功')
+                }else{
+                    alert(data['msg'])
+                }
+			}
+		});
+    }
+
+</script>
+
+</html>

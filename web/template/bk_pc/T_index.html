@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" Content="text/html; Charset=gbk">
+    <title>小黄鸡热门小说免费阅读平台</title>
+    <meta name="keywords" content="小黄鸡言情网、小黄鸡热门小说阅读、小说免费在线阅读、耽美小说阅读、热门小说下载、txt下载、热门小说最新更新"/>
+    <meta name="description" content="小黄鸡海量热门小说免费阅读平台，万千读者喜爱的小说阅读网。"/>
+    <link rel="shortcut icon" href="../../static/base/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../static/bk_pc/css/main.css"/>
+    <link rel="stylesheet" href="../../static/bk_pc/css/alertPopShow.css" >
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/alertPopShow.js" charset="gbk"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/common.js" charset="gbk"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/ZoomPic.js" charset="gbk"></script>
+    <script type="text/javascript" src="../../static/bk_pc/js/baidu.js" charset="gbk"></script>
+</head>
+<body>
+
+
+<!--头部开始   可共用 （添加已登录后样式）-->
+{% include 'header.html' %}
+<!--头部结束  可共用-->
+
+<!--导航开始   可共用-->
+{% include 'nav.html' %}
+<!--导航结束 可共用-->
+<script>
+    $("#0").prop("class", "active");
+</script>
+<div class="main">
+    <div class="wrap">
+        <div class="news">
+            提示:登入后阅读<a >[自动添加书签]</a>,无需手动添加! &nbsp;&nbsp;&nbsp;&nbsp;本站域名:<a href="http://www.xhjbook.com">www.xhjbook.com</a>
+        </div>
+        <div class="list-box">
+            <!--小鸡推荐轮播-->
+            <div id="focus_Box" class="focus-box">
+                <span class="prev"></span>
+                <span class="next"></span>
+                <ul>
+                    {% for bk in recom_bks_list %}
+                    <li>
+                        <a href="/{{bk.get('bk_id')}}"><img width="180" height="269" alt="封面" src="/pic/{{bk.get('bk_id')}}.jpg" onerror="this.src='/pic/0.jpg'" /></a>
+                        <p>
+                            <a href="/{{bk.get('bk_id')}}" class="book-name">{{bk.get('bk_name')}}</a>
+                            <a href="/{{bk.get('bk_id')}}" class="auth">{{bk.get('bk_author')}} 著</a>
+                        </p>
+                    </li>
+                    {% end %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="list-box clearfix">
+
+            <div class="category">
+                <div class="category-cont">
+                    <div class="title clearfix">
+                        <div class="title-l">
+                            <h1>热门小说</h1>
+                        </div>
+                        <div class="title-r">
+                            <a href="/class/1/1">更多</a>
+                        </div>
+                    </div>
+                    <div class="main-box">
+                        <div class="details">
+                            <ul class="novel-list clearfix">
+                                {% for bk in xh_pic_bks %}
+                                <li>
+                                    <div class="novel-info">
+                                        <a class="cover" href="#">
+                                            <img src="/pic/{{bk.get('bk_id')}}.jpg" onerror="this.src='/pic/0.jpg'"/>
+                                        </a>
+                                        <h2><a href="/{{bk.get('bk_id')}}" title="">{{bk.get('bk_name')}}</a></h2>
+                                        <div class="num-box"><div class="a-name">{{bk.get('bk_author')}}</div><span class="num">{{bk.get('bk_length')}}万字</span></div>
+                                        <p class="info">{{bk.get('bk_abstract')}}</p>
+                                        <a href="/{{bk.get('bk_id')}}" class="read">立即阅读&gt;</a>
+                                    </div>
+                                </li>
+                                {% end %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-cont">
+                    <div class="title clearfix">
+                        <div class="title-l">
+                            <h1>热追现言</h1>
+                        </div>
+                        <div class="title-r">
+                            <a href="/class/2/1">更多</a>
+                        </div>
+                    </div>
+                    <div class="main-box">
+                        <div class="details">
+                            <ul class="novel-list clearfix">
+                                {% for bk in wx_pic_bks %}
+                                <li>
+                                    <div class="novel-info">
+                                        <a class="cover" href="#">
+                                            <img src="/pic/{{bk.get('bk_id')}}.jpg" onerror="this.src='/pic/0.jpg'"/>
+                                        </a>
+                                        <h2><a href="/{{bk.get('bk_id')}}" title="">{{bk.get('bk_name')}}</a></h2>
+                                        <div class="num-box"><div class="a-name">{{bk.get('bk_author')}}</div><span class="num">{{bk.get('bk_length')}}万字</span></div>
+                                        <p class="info">{{bk.get('bk_abstract')}}</p>
+                                        <a href="/{{bk.get('bk_id')}}" class="read">立即阅读&gt;</a>
+                                    </div>
+                                </li>
+                                {% end %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-cont">
+                    <div class="title clearfix">
+                        <div class="title-l">
+                            <h1>热追古言</h1>
+                        </div>
+                        <div class="title-r">
+                            <a href="/class/3/1">更多</a>
+                        </div>
+                    </div>
+                    <div class="main-box">
+                        <div class="details">
+                            <ul class="novel-list clearfix">
+                                {% for bk in ds_pic_bks %}
+                                <li>
+                                    <div class="novel-info">
+                                        <a class="cover" href="#">
+                                            <img src="/pic/{{bk.get('bk_id')}}.jpg" onerror="this.src='/pic/0.jpg'"/>
+                                        </a>
+                                        <h2><a href="/{{bk.get('bk_id')}}" title="">{{bk.get('bk_name')}}</a></h2>
+                                        <div class="num-box"><div class="a-name">{{bk.get('bk_author')}}</div><span class="num">{{bk.get('bk_length')}}万字</span></div>
+                                        <p class="info">{{bk.get('bk_abstract')}}</p>
+                                        <a href="/{{bk.get('bk_id')}}" class="read">立即阅读&gt;</a>
+                                    </div>
+                                </li>
+                                {% end %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ranking">
+                <div class="ranking-cont">
+                    <div class="title clearfix">
+                        <h1>总排行榜</h1>
+                    </div>
+                    <div class="inner">
+                        <div class="details">
+                            <ul>
+                                {% set i = 1 %}
+                                {% for bk in all_paihang_bks %}
+                                {% if i < 4%}
+                                <li><i class="i1">{{i}}</i><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a>{{bk.get('bk_author')}}</li>
+                                {% else%}
+                                <li><i>{{i}}</i><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a>{{bk.get('bk_author')}}</li>
+                                {% end %}
+                                {% set i += 1%}
+                                {% end %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="ranking-cont">
+                    <div class="title clearfix">
+                        <h1>热读纯爱排行榜</h1>
+                    </div>
+                    <div class="inner">
+                        <div class="details">
+                            <ul>
+                                {% set i = 1 %}
+                                {% for bk in kh_paihang_bks %}
+                                {% if i < 4%}
+                                <li><i class="i1">{{i}}</i><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a>{{bk.get('bk_author')}}</li>
+                                {% else%}
+                                <li><i>{{i}}</i><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a>{{bk.get('bk_author')}}</li>
+                                {% end %}
+                                {% set i += 1%}
+                                {% end %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="ranking-cont">
+                    <div class="title clearfix">
+                        <h1>热门男频排行榜</h1>
+                    </div>
+                    <div class="inner">
+                        <div class="details">
+                            <ul>
+                                {% set i = 1 %}
+                                {% for bk in yx_paihang_bks %}
+                                {% if i < 4%}
+                                <li><i class="i1">{{i}}</i><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a>{{bk.get('bk_author')}}</li>
+                                {% else%}
+                                <li><i>{{i}}</i><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a>{{bk.get('bk_author')}}</li>
+                                {% end %}
+                                {% set i += 1%}
+                                {% end %}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="ranking-cont">
+                    <div class="title clearfix">
+                        <h1>热追幻言排行榜</h1>
+                    </div>
+                    <div class="inner">
+                        <div class="details">
+                            <ul>
+                                {% set i = 1 %}
+                                {% for bk in js_paihang_bks %}
+                                {% if i < 4%}
+                                <li><i class="i1">{{i}}</i><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a>{{bk.get('bk_author')}}</li>
+                                {% else%}
+                                <li><i>{{i}}</i><a href="/{{bk.get('bk_id')}}">{{bk.get('bk_name')}}</a>{{bk.get('bk_author')}}</li>
+                                {% end %}
+                                {% set i += 1%}
+                                {% end %}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<!--右侧浮动导航 可共用-->
+{% include 'float.html' %}
+<!--右侧浮动导航 结束-->
+
+<!-- 以下div.footer 可替换 -->
+{% include 'footer.html' %}
+<!-- div.footer 结束 -->
+</body>
+</html>

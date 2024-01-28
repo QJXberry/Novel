@@ -1,0 +1,125 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>类型管理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript">
+    index = '';
+    layui.use(['layedit'], function () {
+        var form = layui.form(), layedit = layui.layedit;
+        form.render();
+        index = layedit.build('content', {
+            height: 1000, //设置编辑器高度
+            tool: []
+        });
+    });
+
+    function get_content() {
+        var content;
+        layui.use(['layedit'], function () {
+            var layedit = layui.layedit;
+            content = layedit.getContent(index);
+        });
+        return content
+    }
+</script>
+</head>
+<body>
+    <blockquote class="layui-elem-quote">
+        <span style="color: Red;">提示：</span>上传txt书籍自动生成章节</blockquote>
+    <input name="depth" type="hidden" value="" />
+    <input name="parentType" type="hidden" value="" />
+    <input name="leix" value="" type="hidden" />
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">
+                书名</label>
+            <div class="layui-input-inline">
+                <input type="text" lay-verify="required" class="layui-input" value="" id="bk_name">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">
+                作者</label>
+            <div class="layui-input-inline">
+                <input type="text" lay-verify="required" class="layui-input" value="" id="bk_author">
+            </div>
+        </div>
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            类别</label>
+        <div class="layui-input-block">
+            <select id="tp_id" lay-verify='required'>
+                <option value="">请选择类别</option>
+                <option value="20">玄幻魔法</option>
+                <option value="21">仙侠修真</option>
+                <option value="22">都市言情</option>
+                <option value="23">历史军事</option>
+                <option value="24">网游竞技</option>
+                <option value="25">科幻灵异</option>
+                <option value="26">恐怖惊悚</option>
+                <option value="27">其他类型</option>
+                <option value="28">武侠修真</option>
+                <option value="29">穿越历史</option>
+                <option value="30">青春校园</option>
+                <option value="31">网游动漫</option>
+                <option value="32">科幻空间</option>
+                <option value="33">恐怖灵异</option>
+                <option value="34">耽美同人</option>
+            </select>
+        </div>
+        <div class="layui-inline">
+            <input type="file" value="选择文件" name="file" id="file"/>
+            <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="upload_txt()">
+                上传</button>
+        </div>
+    </div>
+        <div class="layui-form-item">
+        <label class="layui-form-label">
+            简介</label>
+        <div class="layui-input-block">
+            <textarea name="txtG_instructions" id="content" style="width: 850px; height: 100px;"></textarea>
+        </div>
+
+</body>
+<script>
+    function upload_txt() {
+        var bk_name = $('#bk_name').val();
+        var bk_author = $('#bk_author').val();
+        var tp_id =$("#tp_id").val();
+        var file = $('#file')[0].files[0];
+        var form = new FormData();
+        form.append("file", file);
+        form.append("bk_name", bk_name);
+        form.append("bk_author", bk_author);
+        form.append("tp_id", tp_id);
+        form.append("bk_abstract", get_content());
+        $.ajax({
+			url: "/sengo/xhj/upload_txt",
+            mimeType: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+			type: "post",
+			data: form,
+			success: function(data) {
+                 data =  eval('('+data+')');
+                if(data['code'] == 200 ){
+                    alert("上传成功")
+                }else {
+                    alert("上传失败")
+                }
+			}
+		});
+    }
+</script>
+
+</html>

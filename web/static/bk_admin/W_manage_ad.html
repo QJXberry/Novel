@@ -1,0 +1,152 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>小鸡推荐</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/myCss.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="js/dataTables.js" type="text/javascript"></script>
+</head>
+<body>
+    <input name="depth" type="hidden" value="" />
+    <input name="parentType" type="hidden" value="" />
+    <input name="leix" value="" type="hidden" />
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">
+                广告描述</label>
+            <div class="layui-input-inline">
+                <input type="text"  lay-verify="required" class="layui-input" value="" id="ad_description">
+            </div>
+            <label class="layui-form-label">
+                广告url</label>
+            <div class="layui-input-inline">
+                <input type="text"  lay-verify="required" class="layui-input" value="" id="ad_url" >
+            </div>
+        </div>
+
+        <div class="layui-inline">
+        <input type="file" value="选择图片" name="file" id="file" />
+
+         <div class="layui-inline">
+         <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="add_new()">
+            上传</button>
+             </div>
+    </div>
+    <table class="layui-table" id="datatable">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    广告描述
+                </th>
+                <th>
+                    广告地址
+                </th>
+                <th>
+                    操作
+                </th>
+            </tr>
+        </thead>
+    </table>
+</body>
+<script>
+    $(document).ready(function(){
+        get_ad_list()
+    });
+
+    function get_ad_list() {
+        $.ajax({
+			url: "/sengo/xhj/get_ad",
+			type: "post",
+			data: {
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    load_data(data['data'])
+                }
+			}
+		});
+    }
+
+    function load_data(data) {
+        destroy_datatable();
+        $('#datatable').DataTable({
+			"data": data,
+			"paging": false,
+			"bRetrieve": true,
+			"autoWidth": true,
+			"info": false,
+			"searching": false,
+			"columns": [
+                { "data": "id" },
+                { "data": "ad_description" },
+                { "data": "ad_url" }
+			],
+            "columnDefs": [{
+				"targets": 3,
+				"data": "id",
+				"render": function(data, t, full) {
+                        return '<a class="layui-btn layui-btn-small layui-btn-danger"  onclick="del_new('+data+')"><i class="layui-icon">&#xe640;</i> 删除广告</a>'
+				}
+			}]
+		});
+    }
+
+    function del_new(id) {
+        $.ajax({
+			url: "/sengo/xhj/del_ad",
+			type: "post",
+			data: {
+			    "id": id
+			},
+			success: function(data) {
+                if(data['code'] == 200 ){
+                    alert("删除成功")
+                }else {
+                    alert("删除失败")
+                }
+			}
+		});
+    }
+
+    var destroy_datatable = function() {
+		var table_old = $('#datatable').DataTable();
+		if(table_old != null) {
+			table_old.destroy();
+		}
+	};
+
+    function add_new() {
+
+        var ad_description = $('#ad_description').val();
+        var ad_url = $('#ad_url').val();
+        var file = $('#file')[0].files[0];
+        var form = new FormData();
+        form.append("file", file);
+        form.append("ad_url", ad_url);
+        form.append("ad_description", ad_description);
+        $.ajax({
+			url: "/sengo/xhj/add_ad",
+            mimeType: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+			type: "post",
+			data: form,
+			success: function(data) {
+			    data =  eval('('+data+')');
+                if(data['code'] == 200 ){
+                    alert("设置成功")
+                }else {
+                    alert("设置失败")
+                }
+			}
+		});
+    }
+</script>
+
+</html>
