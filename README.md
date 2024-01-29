@@ -1,23 +1,27 @@
-#小黄鸡系统
+# This is my personal novel website, mainly divided into several sections:<br> 
+# Yellow Chicken System<br>
 
-修改小黄鸡的图片
+## Management System:<br>
+* Log in<br>
+* Add user<br>
+* Search for books<br>
+   - Add | Remove | Chicken recommendations<br>
+   - Change book priority<br>
+   - Review books<br>
+   - Change cover (manual)<br>
+   - Delete book<br>
 
-管理系统：
-* 登入
-* 添加用户
-* 查找书
-- 添加|去除|小鸡推荐
-- 更改书优先级
-- 审核书
-
-- 更换封面(手动)
-- 删除书
-
-作者系统：
-* 登入
-* 添加新书 ·简介 ·类别（下拉框）
-* 添加章节 ·富文本框输入章节内容  ·Input输入章节名 ·下拉框选择是哪本书 ·提交审核
-* 查看我提交的书
-* 查看对应书的章节列表
+    
+## Author System:<br> 
+* Log in<br>
+* Add new book<br>
+   - Introduction<br>
+   - Category (drop-down box)<br>
+* Add chapter<br>
+   - Input chapter content in rich text box<br>
+   - Input chapter name in Input<br>
+   - Select which book in the drop-down box<br>
+   - Submit for review<br>
+  
 
 
