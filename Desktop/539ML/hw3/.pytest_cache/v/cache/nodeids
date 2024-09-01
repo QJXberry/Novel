@@ -1,0 +1,23 @@
+[
+  "test1.py::test_backward",
+  "test1.py::test_check_dL_da",
+  "test1.py::test_check_dL_db",
+  "test1.py::test_check_dL_dw",
+  "test1.py::test_check_da_dz",
+  "test1.py::test_check_dz_db",
+  "test1.py::test_check_dz_dw",
+  "test1.py::test_compute_L",
+  "test1.py::test_compute_a",
+  "test1.py::test_compute_dL_da",
+  "test1.py::test_compute_dL_db",
+  "test1.py::test_compute_dL_dw",
+  "test1.py::test_compute_da_dz",
+  "test1.py::test_compute_z",
+  "test1.py::test_forward",
+  "test1.py::test_logistic_regression",
+  "test1.py::test_predict",
+  "test1.py::test_python_version",
+  "test1.py::test_train",
+  "test1.py::test_update_b",
+  "test1.py::test_update_w"
+]

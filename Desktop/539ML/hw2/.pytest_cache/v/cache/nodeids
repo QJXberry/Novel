@@ -1,0 +1,9 @@
+[
+  "test.py::test_compute_L",
+  "test.py::test_compute_Phi",
+  "test.py::test_compute_dL_dw",
+  "test.py::test_compute_yhat",
+  "test.py::test_python_version",
+  "test.py::test_train",
+  "test.py::test_update_w"
+]

@@ -1,0 +1,17 @@
+[
+  "test1.py::test_best_attribute",
+  "test1.py::test_build_tree",
+  "test1.py::test_conditional_entropy",
+  "test1.py::test_dataset1",
+  "test1.py::test_entropy",
+  "test1.py::test_inference",
+  "test1.py::test_information_gain",
+  "test1.py::test_load_dataset",
+  "test1.py::test_most_common",
+  "test1.py::test_predict",
+  "test1.py::test_python_version",
+  "test1.py::test_split",
+  "test1.py::test_stop1",
+  "test1.py::test_stop2",
+  "test1.py::test_train"
+]
